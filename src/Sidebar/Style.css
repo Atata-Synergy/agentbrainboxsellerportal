@@ -1,0 +1,18 @@
+.menu {
+    padding: 5px !important;
+    color: #fff !important;
+}
+
+.subMenu {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.068);
+    border-left: 1px solid rgba(255, 255, 255, 0.068);
+    padding: 10px !important;
+    margin-left: 0px !important;
+    color: rgb(211, 204, 204) !important;
+    cursor: pointer;
+}
+
+.subMenu:hover {
+    background-color: rgba(255, 255, 255, 0.068);
+    transition: 0.5s;
+}

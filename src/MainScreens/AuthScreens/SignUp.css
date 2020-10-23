@@ -1,0 +1,8 @@
+.auth-body {
+    background-image: url("../../Assets/img//11979962.jpg");
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-color: #fed50b; */
+    min-width: 100%;
+}
