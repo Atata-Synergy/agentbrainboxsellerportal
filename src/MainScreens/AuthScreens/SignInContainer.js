@@ -86,6 +86,12 @@ class SignInContainer extends Component {
       }
     }
   }
+  UNSAFE_componentWillReceiveProps(props){
+    //We determine where we redirect base on the merchant's registration status
+    if (props.user.id) {
+      props.history.push("/seller");
+    }
+  }
   async handleSubmit() {
     this.setState({ loading: true });
     const { formValue, errorMessage } = this.state;
@@ -98,47 +104,6 @@ class SignInContainer extends Component {
       return;
     }
     this.props.login(formValue);
-    // try {
-    //   const user = await login(formValue);
-    //   console.log(user);
-    //   if (user.access_token) {
-    //     if (user.role === "seller") {
-    //       localStorage.removeItem("token");
-    //       localStorage.setItem("token", user.access_token);
-    //       this.props.history.push("/seller");
-    //     } else {
-    //       if (user.user.phonenumber === null) {
-    //         localStorage.removeItem("token");
-    //         localStorage.setItem("token", user.access_token);
-    //         this.props.history.push({
-    //           pathname: "/seller/create/verify",
-    //           state: {
-    //             message: "Kindly Verify your phone number",
-    //             ...user,
-    //             phoneVerified: false,
-    //           },
-    //         });
-    //       } else {
-    //          localStorage.removeItem("token");
-    //          localStorage.setItem("token", user.access_token);
-    //         this.props.history.push({
-    //           pathname: "/seller/create/verify",
-    //           state: {
-    //             message:
-    //               "there is no store attached to your account, Create one.",
-    //             ...user,
-    //           },
-    //         });
-    //       }
-    //     }
-    //   } else {
-    //     this.setState({ errorMessage: "Authentication Failed" });
-    //   }
-    // } catch (error) {
-    //   this.setState({ errorMessage: error });
-    // }
-    // this.setState({ loading: false });
-    // console.log(formValue, "Form Value");
   }
 
   render() {
@@ -178,39 +143,11 @@ class SignInContainer extends Component {
                     backgroundColor: "#fff",
                   }}
                 >
-                  {this.state.Message && (
-                    <Message
-                      showIcon
-                      type={this.state.type === null ? "info" : this.state.type}
-                      description={
-                        <p>
-                          {this.state.Message}. <br />
-                          <a
-                            href="#"
-                            className={
-                              this.state.showTokenError ? "btn-link" : "d-none"
-                            }
-                            onClick={() => {
-                              localStorage.removeItem("token");
-                              this.setState({
-                                Message:
-                                  "Session token has been cleared, try signing in again",
-                                type: "success",
-                                showTokenError: false,
-                              });
-                            }}
-                          >
-                            Clear Session token
-                          </a>
-                        </p>
-                      }
-                    />
-                  )}
-                  {this.state.errorMessage && (
+                  {this.props.loginError && (
                     <Message
                       showIcon
                       type="error"
-                      description={this.state.errorMessage}
+                      description={this.props.loginError}
                     />
                   )}
                   <Form
@@ -236,7 +173,7 @@ class SignInContainer extends Component {
                       color="google plus"
                       fluid
                       onClick={this.handleSubmit}
-                      loading={this.state.loading}
+                      loading={this.props.isLoggingIn}
                     >
                       <Icon name="lock" /> Sign in
                     </Button>
@@ -292,7 +229,11 @@ class SignInContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  isLoggingIn: state.auth.isLoggingIn,
+  user: state.auth.user,
+  loginError: state.auth.loginError,
+});
 
 const mapDispatchToProps = {
   login,

@@ -14,9 +14,9 @@ export default function SellerNavigator() {
     <div>
       <div className="container-fluid">
         <div className="row no-gutter">
-          <SidebarNavigation history={history} path={path} />{" "}
-        </div>{" "}
-      </div>{" "}
+          <SidebarNavigation history={history} path={path} />
+        </div>
+      </div>
     </div>
   );
 }

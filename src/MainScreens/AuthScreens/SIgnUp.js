@@ -11,10 +11,13 @@ export default function SignUp() {
   let history = useHistory();
 
   return (
-    <>        <NavBarHeader/>
+    <>
+      {" "}
+      <NavBarHeader />
       <div className="auth-body">
         <SignUpContainer history={history} />
-      </div>      <Footer />
+      </div>{" "}
+      <Footer />
     </>
   );
 }

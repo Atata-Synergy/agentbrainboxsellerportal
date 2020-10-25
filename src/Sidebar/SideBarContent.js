@@ -15,7 +15,9 @@ import { Dropdown, Icon, Input, Menu, Accordion } from "semantic-ui-react";
 import CustomScroll from "react-custom-scroll";
 import "./sidebar.css";
 import { Avatar, Placeholder } from "rsuite";
-export default class SideBarContent extends Component {
+import { connect } from 'react-redux'
+
+class SideBarContent extends Component {
   constructor() {
     super();
     this.state = { activeIndex: null };
@@ -30,6 +32,7 @@ export default class SideBarContent extends Component {
   };
   render() {
     const { path, history } = this.props.props;
+    const { merchant } = this.props;
     const { activeIndex } = this.state;
     const { Paragraph } = Placeholder;
     return (
@@ -42,15 +45,14 @@ export default class SideBarContent extends Component {
             padding: "10px",
           }}
         >
-          <div className="d-flex justify-content-between align-items-center ">
-            <div className="text-center m-2 p-2 mx-auto">
-              <Avatar circle />
-              <p>Seller</p>
-            </div>
-            <div className="text-center m-2 p-2 mx-auto  align-content-center ">
-              <div style={{ opacity: 0.5 }}>
-                <Paragraph active rowMargin={5} />
-              </div>
+          <div className="justify-content-center  mx-auto">
+            <div className="text-center m-2 p-2">
+              <Avatar circle src={merchant && merchant.logo} />
+              <p>
+                {merchant.business_name || <Paragraph rows={1} active />}
+                <br />
+                {merchant.business_email || <Paragraph rows={1}  active />}
+              </p>
               <a href="">Edit Profile</a>
             </div>
           </div>
@@ -146,7 +148,7 @@ export default class SideBarContent extends Component {
               />
             </Menu.Item>
           </Accordion>
-                
+
           <Accordion
             as={Menu}
             vertical
@@ -395,3 +397,14 @@ export default class SideBarContent extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+  merchant: state.auth.merchant,
+});
+
+const mapDispatchToProps = {
+  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBarContent);

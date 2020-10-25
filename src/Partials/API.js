@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export default axios.create({
-    // baseURL: `http://api.atata57.com/`
+    baseURL: `http://agentbrainbox.test/v_1`
 });

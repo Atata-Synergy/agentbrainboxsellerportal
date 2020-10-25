@@ -26,6 +26,8 @@ import verifyToken from "../Partials/Authentication";
 import "./Style.css";
 import SideBarContent from "./SideBarContent";
 import fetchUser from "../Partials/Fetch";
+import { me } from "../Actions/loginAction";
+import { connect } from "react-redux";
 const panelStyles = {
   padding: "15px 20px",
   color: "rgb(218, 216, 216)",
@@ -46,12 +48,13 @@ const headerStyles = {
   color: "rgb(218, 216, 216)",
 };
 
-export default class SidebarNavigation extends Component {
+class SidebarNavigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
       sidebarOpen: true,
       seller: null,
+      merchant: {}
     };
 
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
@@ -61,10 +64,19 @@ export default class SidebarNavigation extends Component {
     this.setState({ sidebarOpen: open });
   }
 
-  // S
-  async componentDidMount() {
-   
+  componentDidMount() {
+    this.props.me();
   }
+ 
+ static getDerivedStateFromProps(props, state) {
+   if (props.merchant.id) {
+     return {
+       merchant: props.merchant, 
+     };
+   }
+ }
+
+
   render() {
     const { path, url } = this.props;
     console.log(path);
@@ -116,3 +128,14 @@ export default class SidebarNavigation extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+  merchant: state.auth.merchant,
+});
+
+const mapDispatchToProps = {
+  me,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarNavigation);

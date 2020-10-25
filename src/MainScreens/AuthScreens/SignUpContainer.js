@@ -20,14 +20,19 @@ import {
 } from "rsuite";
 import { Button } from "semantic-ui-react";
 
-import { registerUser } from "../../Partials/Authentication";
-import { Link } from "react-router-dom";
+import { registerUser } from "../../Actions/registerAction";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 const formFields = [
   {
     name: "name",
     label: "Full Name",
+    type: "text",
+  },
+  {
+    name: "phone",
+    label: "Phone Number",
     type: "text",
   },
   {
@@ -38,23 +43,23 @@ const formFields = [
   {
     name: "state",
     label: "State",
-    type: "email",
+    type: "text",
   },
   {
     name: "city",
     label: "city",
-    type: "email",
+    type: "text",
   },
   {
     name: "address",
     label: "Street number, Landmark ",
-    type: "email",
+    type: "text",
   },
-  
+
   {
     name: "country",
     label: "country",
-    type: "email",
+    type: "text",
   },
   {
     name: "password",
@@ -72,13 +77,13 @@ function TextField(props) {
   const { name, label, accepter, type, ...rest } = props;
   return (
     <FormGroup>
-      <ControlLabel> {label} </ControlLabel>{" "}
-      <FormControl name={name} accepter={accepter} {...rest} type={type} />{" "}
+      <ControlLabel> {label} </ControlLabel>
+      <FormControl name={name} accepter={accepter} {...rest} type={type} />
     </FormGroup>
   );
 }
 
-class SignUp extends Component {
+class SignUpContainer extends Component {
   constructor() {
     super();
     this.state = {
@@ -100,44 +105,24 @@ class SignUp extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  async handleSubmit() {
-    this.setState({ loading: true });
+  handleSubmit() {
     const { formValue } = this.state;
-
+    console.log(formValue);
     if (!this.form.check()) {
       console.error("Form Error");
       return;
     }
-    try {
-      const user = await registerUser(formValue);
-      localStorage.removeItem("token");
 
-      /**
-       * Check for errors from the backend
-       */
-      if (user.data.errors) {
-        this.state.errors = user.data.errors;
-      } else {
-        if (user.status === 200) {
-          localStorage.removeItem("token");
-          this.props.history.push({
-            pathname: "/seller/create/verify",
-            state: { user: user.data.user },
-          });
-        } else {
-          this.setState({ errors: user.data.errors });
-          console.log(user.data.errors);
-          console.log(this.state.errors);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    this.setState({ loading: false });
-
-    // console.log(formValue, "Form Value");
+    this.props.registerUser(formValue);
   }
 
+  UNSAFE_componentWillReceiveProps(props) {
+    props.user &&
+      props.user.id &&
+      this.props.history.push("/seller/create/Account");
+    props.registrationError &&  props.registrationError.errors &&
+      this.setState({ errors: { ...props.registrationError.errors } });
+  }
   render() {
     const { StringType, NumberType } = Schema.Types;
     const model = Schema.Model({
@@ -167,36 +152,34 @@ class SignUp extends Component {
     const { formError, formValue } = this.state;
     const { errors } = this.state;
     return (
-      <div className="show-fake-browser login-page p-4 m-4 container-fluid">
+      <div className="show-fake-browser login-page w-100 p-4 m-4 container-fluid">
         <Container>
           <div className="row">
-
             <div className="mx-auto">
               <Panel
                 header={<h3> Create Account </h3>}
                 bordered
                 style={{
                   display: "inline-block",
-                  width: '100%',
+                  width: "400px",
                   alignSelf: "bottom",
                   backgroundColor: "#fff",
                 }}
               >
-                {" "}
                 {errors.email && (
                   <Message
                     type="error"
-                    description={errors.email}
+                    description={errors.email[0]}
                     style={{ margin: 10 }}
                   />
-                )}{" "}
+                )}
                 {errors.passwordMatchError && (
                   <Message
                     type="error"
                     description={errors.passwordMatchError}
                     style={{ margin: 10 }}
                   />
-                )}{" "}
+                )}
                 <Form
                   ref={(ref) => (this.form = ref)}
                   onSubmit={this.handleSubmit}
@@ -209,43 +192,46 @@ class SignUp extends Component {
                   formValue={formValue}
                   model={model}
                 >
-                  {" "}
                   {formFields.map((textField) => (
                     <TextField
                       name={textField.name}
                       label={textField.label}
                       type={textField.type}
                     />
-                  ))}{" "}
+                  ))}
                   <ButtonToolbar>
                     <Button
                       color="google plus"
                       type="submit"
                       fluid
                       size="big"
-                      loading={this.state.loading}
+                      loading={this.props.isRegistering}
                     >
-                      Submit{" "}
-                    </Button>{" "}
-                  </ButtonToolbar>{" "}
+                      Submit
+                    </Button>
+                  </ButtonToolbar>
                   <span className="mt-4 p-2">
-                    Do you have an account already?{" "}
+                    Do you have an account already?
                     <Link to="/login">Login </Link>
                   </span>
-                </Form>{" "}
-              </Panel>{" "}
-            </div>{" "}
-          </div>{" "}
-        </Container>{" "}
+                </Form>
+              </Panel>
+            </div>
+          </div>
+        </Container>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+  isRegistering: state.auth.isRegistering,
+  registrationError: state.auth.registrationError,
+});
 
 const mapDispatchToProps = {
   registerUser,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpContainer);

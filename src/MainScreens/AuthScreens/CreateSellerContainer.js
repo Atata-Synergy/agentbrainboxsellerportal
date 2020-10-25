@@ -30,119 +30,112 @@ import {
   Modal,
   Loader,
 } from "rsuite";
-import { registerSeller } from "../../Partials/Authentication";
+import { registerMerchant } from "../../Actions/registerAction";
+import NavBarHeader from "../../Components/NavBarHeader";
+import { connect } from "react-redux";
+import NumberFormat from "react-number-format";
 
-export default class CreateSellerContainer extends Component {
+class CreateSellerContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       step: 0,
       checkTrigger: "blur",
-      formValue: {},
-      formError: {},
-      user_id: this.props.history.location.state.user.id ,
-      Legal_or_business_name: "", 
-      Product_Category: "",
-      AddressLine1: "",
-      AddressLine2: "",
+      business_name: "",
+      business_email: "",
+      business_phone: "",
+      business_image: "",
       cityOrTown: "",
-      State: "Lagos",
-      Country: "Nigeria",
+      business_address: "",
       TIN: "",
       BusinessRegistration: "",
       VATRegistrationStatus: "",
-      Bank: "",
-      Bank_code: "",
-      Account_name: "",
-      IBAN: "",
-      Account_number: "",
-      BVN: "",
+      wallet_code: "",
+      bank_name: "",
+      account_holder_name: "",
+      account_number: "",
+      iban: "",
+      bvn: "",
+      wallet_code_confirmation: "",
+      formError: {},
+      formValue: {},
       draftBtnLoading: false,
       showDraftModal: false,
-      Legal_or_business_nameError: "",
       savedData: "",
-      PersonInCharge: "",
-      Phone_number_PIC: "",
-      Phone_number: "",
-      email: "",
-      website: "",
+      state: "country",
+      country: "Nigeria",
       nextBtn: "Next",
       nextIsLoading: false,
       Message: null,
       type: "info",
     };
-    this.saveDraft = this.saveDraft.bind(this);
+    // this.saveDraft = this.saveDraft.bind(this);
   }
-  async saveDraft() {
-    this.setState({ draftBtnLoading: true });
-    /**
-     * Save draft saves filled products to AsyncStorage
-     */
+  // async saveDraft() {
+  //   this.setState({ draftBtnLoading: true });
+  //   /**
+  //    * Save draft saves filled products to AsyncStorage
+  //    */
 
-    const formData = {
-      user_id: this.state.user_id,
-      atataId: this.state.atataId,
-      Legal_or_business_name: this.state.Legal_or_business_name,
-      Product_Category: this.state.Product_Category,
-      AddressLine1: this.state.AddressLine1,
-      AddressLine2: this.state.AddressLine2,
-      cityOrTown: this.state.cityOrTown,
-      State: this.state.State,
-      Country: this.state.Country,
-      TIN: this.state.TIN,
-      BusinessRegistration: this.state.BusinessRegistration,
-      VATRegistrationStatus: this.state.VATRegistrationStatus,
-      Bank: this.state.Bank,
-      Bank_code: this.state.Bank_code,
-      Account_name: this.state.Account_name,
-      IBAN: this.state.IBAN,
-      Account_number: this.state.Account_number,
-      BVN: this.state.BVN,
-      PersonInCharge: this.state.PersonInCharge,
-      Phone_number_PIC: this.state.Phone_number_PIC,
-      Phone_number: this.state.Phone_number,
-      email: this.state.email,
-      website: this.state.website,
-      pageLoader: false,
-      pageLoadingMessage: "",
-    };
+  //   const formData = {
+  //     user_id: this.state.user_id,
+  //     atataId: this.state.atataId,
+  //     Legal_or_business_name: this.state.Legal_or_business_name,
+  //     Product_Category: this.state.Product_Category,
+  //     AddressLine1: this.state.AddressLine1,
+  //     AddressLine2: this.state.AddressLine2,
+  //     cityOrTown: this.state.cityOrTown,
+  //     State: this.state.State,
+  //     Country: this.state.Country,
+  //     TIN: this.state.TIN,
+  //     BusinessRegistration: this.state.BusinessRegistration,
+  //     Bank: this.state.Bank,
+  //     Bank_code: this.state.Bank_code,
+  //     Account_name: this.state.Account_name,
+  //     IBAN: this.state.IBAN,
+  //     Account_number: this.state.Account_number,
+  //     BVN: this.state.BVN,
+  //     PersonInCharge: this.state.PersonInCharge,
+  //     Phone_number_PIC: this.state.Phone_number_PIC,
+  //     Phone_number: this.state.Phone_number,
+  //     email: this.state.email,
+  //     website: this.state.website,
+  //     pageLoader: false,
+  //     pageLoadingMessage: "",
+  //   };
 
-    if (formData.Legal_or_business_name !== "") {
-      try {
-        await localStorage.setItem("saveSellerData", JSON.stringify(formData));
-        Notification["success"]({
-          title: "Saved",
-          description: `${formData.Legal_or_business_name} has been successfully saved. Ensure you do not clean your browser cache `,
-        });
-      } catch (error) {
-        Notification["error"]({
-          title: "Draft Error",
-          description: "Could not save data, Try again or contact Tech support",
-        });
-        console.log(error);
-      }
-    } else {
-      this.setState({
-        Legal_or_business_nameError:
-          "You need to fill the name field before saving to draft",
-      });
-      Notification["error"]({
-        title: "Store Name",
-        description: "Store name cannot be empty, Please fill in a Store name",
-      });
-    }
-    this.setState({ draftBtnLoading: false });
-  }
-  async componentDidMount() {
+  //   if (formData.Legal_or_business_name !== "") {
+  //     try {
+  //       await localStorage.setItem("saveSellerData", JSON.stringify(formData));
+  //       Notification["success"]({
+  //         title: "Saved",
+  //         description: `${formData.Legal_or_business_name} has been successfully saved. Ensure you do not clean your browser cache `,
+  //       });
+  //     } catch (error) {
+  //       Notification["error"]({
+  //         title: "Draft Error",
+  //         description: "Could not save data, Try again or contact Tech support",
+  //       });
+  //       console.log(error);
+  //     }
+  //   } else {
+  //     this.setState({
+  //       Legal_or_business_nameError:
+  //         "You need to fill the name field before saving to draft",
+  //     });
+  //     Notification["error"]({
+  //       title: "Store Name",
+  //       description: "Store name cannot be empty, Please fill in a Store name",
+  //     });
+  //   }
+  //   this.setState({ draftBtnLoading: false });
+  // }
+  componentDidMount() {
     /**
      * Saved Data from the local storage
      */
-    console.log(this.props);
-    const { state } = this.props.history.location;
-    if (state !== undefined) {
-      this.setState({ Message: state.message });
-    }
-    var savedData = await JSON.parse(localStorage.getItem("saveSellerData"));
+
+    var savedData = JSON.parse(localStorage.getItem("saveSellerData"));
 
     if (savedData) {
       this.setState({
@@ -153,13 +146,18 @@ export default class CreateSellerContainer extends Component {
       console.log(this.state.savedData);
     }
   }
+  UNSAFE_componentWillReceiveProps(props) {
+    props.merchant &&
+      props.merchant.id &&
+      this.props.history.push("/seller");
+  }
   render() {
-    const { step, seller } = this.state;
+    const { step } = this.state;
     // const { email, id, name } = this.props.navigation.state.params;
     const onChange = (nextStep) => {
       this.setState(() => {
         return {
-          step: nextStep < 0 ? 0 : nextStep > 4 ? 4 : nextStep,
+          step: nextStep < 0 ? 0 : nextStep > 2 ? 2 : nextStep,
         };
       });
     };
@@ -173,53 +171,10 @@ export default class CreateSellerContainer extends Component {
           onChange(step + 1);
           break;
         case 2:
-          onChange(step + 1);
+          // onChange(step + 1);
+          this.props.registerMerchant({ ...this.state });
           break;
-        case 3:
-          onChange(step + 1);
-          this.setState({ nextBtn: "Finish" });
-          break;
-        case 4:
-          this.setState({ nextIsLoading: true });
-          /**
-           * Format required data in to an object
-           */
-          const formData = {
-            seller_user_data: 0,
-          };
-          await registerSeller(formData)
-            .then((response) => {
-              console.log(response);
-              if (response.status === 200) {
-                localStorage.removeItem("token");
-                // localStorage.removeItem("saveSellerData");
-                this.props.history.push({
-                  pathname: "/login",
-                  state: {
-                    message:
-                      "Your store has been created successfully, Please login to start selling on ATATA57",
-                    type: "info",
-                  },
-                });
-              } else {
-                this.setState({
-                  message:
-                    "could not create your store, Please check your network or try again later",
-                  type: "error",
-                });
-                console.log("error");
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-              this.setState({
-                nextIsLoading: false,
-                Message: "Server error",
-                type: "error",
-              });
-            });
-          this.setState({ nextIsLoading: false });
-          break;
+
         default:
           break;
       }
@@ -234,15 +189,16 @@ export default class CreateSellerContainer extends Component {
       AddressLine1: StringType().isRequired("This field is required."),
       cityOrTown: StringType().isRequired("This field is required."),
     });
+
     const stepOneField = [
       {
         id: 1,
-        name: "Legal_or_business_name",
+        name: "business_name",
         label: "Your Shop name",
         type: "text",
         required: true,
-        state: this.state.Legal_or_business_name,
-        onChange: (text) => this.setState({ Legal_or_business_name: text }),
+        state: this.state.business_name,
+        onChange: (text) => this.setState({ business_name: text }),
         errorMessage:
           "Your store name is required, kindly Fill this field before proceeding.",
         helpBlock:
@@ -250,40 +206,49 @@ export default class CreateSellerContainer extends Component {
       },
       {
         id: 2,
-        name: "Product_Category",
-        label: "Your Shop Category",
-        type: "text",
+        name: "business_email",
+        label: "Your Shop Email Address",
+        type: "email",
         required: true,
-        state: this.state.Product_Category,
-        onChange: (text) => this.setState({ Product_Category: text }),
+        state: this.state.business_email,
+        onChange: (text) => this.setState({ business_email: text }),
         errorMessage:
           "Let's know the category your store belongs to,kindly Fill this field before proceeding.",
-        helpBlock:
-          "What category will you  classify your store. e.g Agriculture, Medicine etc",
+        helpBlock: "Your contact email address",
       },
       {
         id: 3,
-        state: this.state.AddressLine1,
-        onChange: (text) => this.setState({ AddressLine1: text }),
-        name: "AddressLine1",
-        label: "Shop Address",
+        state: this.state.business_phone,
+        onChange: (text) => this.setState({ business_phone: text }),
+        name: "business_phone",
+        label: "Shop/Business Phone number",
         type: "text",
         required: true,
         errorMessage: "Fill the address field before proceeding.",
-        helpBlock:
-          "Your physical store address, block or house number, street name, nearest street",
       },
       {
         id: 4,
-        state: this.state.AddressLine2,
-        onChange: (text) => this.setState({ AddressLine2: text }),
-        name: "AddressLine2",
-        label: "closest landmark, P.O box",
-        type: "text",
-        helpBlock: "e.g beside Landmark A, P.O box 1234A",
+        state: this.state.business_image,
+        onChange: (text) => this.setState({ business_image: text }),
+        name: "business_image",
+        label: "Upload your business logo",
+        type: "file",
+        helpBlock: "upload a 150 x 150 image with max size of 5mb",
       },
+
       {
         id: 5,
+        state: this.state.business_address,
+        onChange: (text) => this.setState({ business_address: text }),
+        name: "business_address",
+        label: "Street/Block number, street name, closest Landmark ",
+        type: "text",
+        required: true,
+        errorMessage: "Fill this field before proceeding.",
+        helpBlock: "e.g 18A Satellite Town. beside AP filling Station",
+      },
+      {
+        id: 6,
         state: this.state.cityOrTown,
         onChange: (text) => this.setState({ cityOrTown: text }),
         name: "cityOrTown",
@@ -315,16 +280,6 @@ export default class CreateSellerContainer extends Component {
         type: "text",
         helpBlock: "Your CAC registration number",
       },
-      {
-        id: 3,
-        onChange: (text) => this.setState({ VATRegistrationStatus: text }),
-        name: "VATRegistrationStatus",
-        state: this.state.VATRegistrationStatus,
-        label: "VAT registration status",
-        type: "text",
-        helpBlock:
-          "Chose registered if you have completed the VAT registration",
-      },
     ];
 
     const stepThreeField = [
@@ -333,8 +288,8 @@ export default class CreateSellerContainer extends Component {
         id: 1,
         label: "Bank name",
         type: "text",
-        state: this.state.Bank,
-        onChange: (text) => this.setState({ Bank: text }),
+        state: this.state.bank_name,
+        onChange: (text) => this.setState({ bank_name: text }),
         helpBlock: "Your Bank full name. e.g First Bank Plc, etc",
       },
       {
@@ -351,93 +306,44 @@ export default class CreateSellerContainer extends Component {
         id: 3,
         label: "Account Holder's Name",
         type: "text",
-        state: this.state.Account_name,
-        onChange: (text) => this.setState({ Account_name: text }),
+        state: this.state.account_holder_name,
+        onChange: (text) => this.setState({ account_holder_name: text }),
         helpBlock:
           "The registered account holder's name, e.g ATATA resources Plc",
       },
       {
-        name: "IBAN",
+        name: "iban",
         id: 4,
         label: "IBAN",
         type: "text",
-        state: this.state.IBAN,
-        onChange: (text) => this.setState({ IBAN: text }),
+        state: this.state.iban,
+        onChange: (text) => this.setState({ iban: text }),
         helpBlock: "IBAN",
       },
       {
-        name: "Account_number",
+        name: "account_number",
         id: 5,
         label: "Account Number",
         type: "text",
-        state: this.state.Account_number,
-        onChange: (text) => this.setState({ Account_number: text }),
+        state: this.state.account_number,
+        onChange: (text) => this.setState({ account_number: text }),
       },
       {
-        name: "BVN",
+        name: "bvn",
         id: 6,
         label: "BVN",
         type: "text",
-        state: this.state.BVN,
-        onChange: (text) => this.setState({ BVN: text }),
+        max: 10,
+        state: this.state.bvn,
+        onChange: (text) => this.setState({ bvn: text }),
         helpBlock: "Your bank verification Number",
       },
     ];
 
-    const contactField = [
-      {
-        id: 1,
-        onChange: (text) => this.setState({ PersonInCharge: text }),
-        name: "PersonInCharge",
-        state: this.state.PersonInCharge,
-        label: "Person in Charge",
-        type: "text",
-        helpBlock:
-          "The name of contact person handling the account will handle the ATATA account",
-      },
-      {
-        id: 2,
-        onChange: (text) => this.setState({ Phone_number_PIC: text }),
-        name: "Phone_number_PIC",
-        state: this.state.Phone_number_PIC,
-        label: "P.I.C Phone number",
-        type: "text",
-        helpBlock: "Person in charge phone number",
-      },
-      {
-        id: 3,
-        onChange: (text) => this.setState({ Phone_number: text }),
-        name: "Phone_number",
-        state: this.state.Phone_number,
-        label: "Store phone number",
-        type: "text",
-        required: true,
-        helpBlock:
-          "The official phone number of the store, which buyers can reach when trying to make order",
-      },
-      {
-        id: 4,
-        onChange: (text) => this.setState({ email: text }),
-        name: "email",
-        state: this.state.email,
-        label: "Store's email address",
-        type: "text",
-        helpBlock:
-          "Store's official email address, Will be visible to all visitors",
-      },
-      {
-        id: 5,
-        onChange: (text) => this.setState({ website: text }),
-        name: "website",
-        state: this.state.website,
-        label: "Website",
-        type: "text",
-        helpBlock: "Store's website",
-      },
-    ];
-    const { savedData } = this.state;
+    const { savedData, formValue } = this.state;
     return (
-      <>
+      <Container>
+        <NavBarHeader />
         <Modal
           backdrop={true}
           show={this.state.showDraftModal}
@@ -496,9 +402,19 @@ export default class CreateSellerContainer extends Component {
             </Button>
           </Modal.Footer>
         </Modal>
-        <div className="row p-4">
-          <Form fluid>
-            <Message type={this.state.type} description={this.state.Message} />
+        <div className="row p-4 mx-auto">
+          <Form
+            ref={(ref) => (this.form = ref)}
+            onChange={(formValue) => {
+              this.setState({ formValue });
+            }}
+            onCheck={(formError) => {
+              this.setState({ formError });
+            }}
+            formValue={formValue}
+            model={stepModel}
+            fluid
+          >
             <Panel
               header={`Welcome , Let's set up your store`}
               style={{ width: "100%" }}
@@ -513,10 +429,8 @@ export default class CreateSellerContainer extends Component {
               )}
               <Steps current={step}>
                 <Steps.Item title="Your store basic profile" />
-                <Steps.Item title="Contact Details" />
-                <Steps.Item title="Registration and verification" />
                 <Steps.Item title="Files and documentation" />
-                <Steps.Item title="Bank account and wallet setup" />
+                <Steps.Item title="Setup your Wallet" />
               </Steps>
               <hr />
               <Panel
@@ -532,13 +446,14 @@ export default class CreateSellerContainer extends Component {
                         colspan={7}
                         style={{ justifyContent: "end" }}
                       >
-                        <ControlLabel>{inputField.label}</ControlLabel>
+                        <ControlLabel> {inputField.label} </ControlLabel>
                       </FlexboxGrid.Item>
                       <FlexboxGrid.Item colspan={14}>
                         <Input
                           value={inputField.state}
                           onChange={inputField.onChange}
                           name={inputField.name}
+                          type={inputField.type}
                         />
                         <small> {inputField.helpBlock} </small>
                         <HelpBlock>
@@ -565,7 +480,7 @@ export default class CreateSellerContainer extends Component {
                             className="form-control"
                             onChange={(event) =>
                               this.setState({
-                                State: event.target.value,
+                                state: event.target.value,
                               })
                             }
                           >
@@ -583,7 +498,7 @@ export default class CreateSellerContainer extends Component {
                             className="form-control"
                             onChange={(event) =>
                               this.setState({
-                                Country: event.target.value,
+                                country: event.target.value,
                               })
                             }
                           >
@@ -596,20 +511,32 @@ export default class CreateSellerContainer extends Component {
                   </FlexboxGrid>
                 </FormGroup>
               </Panel>
+
               <Panel
                 style={{
                   display: step === 1 ? "block" : "none",
                 }}
               >
-                {/* <StepOne /> */}
-                {contactField.map((inputField) => (
+                {/* <StepThree /> */}
+                <Panel
+                  header=" Upload your business registration documents, for store verification e.g
+            CAC Registration etc "
+                >
+                  <Uploader
+                    multiple
+                    accept="jpg, pdf"
+                    listType="picture-text"
+                    action="//jsonplaceholder.typicode.com/posts/"
+                  />
+                </Panel>
+                {stepTwoField.map((inputField) => (
                   <FormGroup key={inputField.id}>
                     <FlexboxGrid>
                       <FlexboxGrid.Item
                         colspan={7}
                         style={{ justifyContent: "end" }}
                       >
-                        <ControlLabel>{inputField.label}</ControlLabel>
+                        <ControlLabel> {inputField.label} </ControlLabel>
                       </FlexboxGrid.Item>
                       <FlexboxGrid.Item colspan={14}>
                         <Input
@@ -631,54 +558,6 @@ export default class CreateSellerContainer extends Component {
                   display: step === 2 ? "block" : "none",
                 }}
               >
-                {/* <StepTwo /> */}
-                {stepTwoField.map((inputField) => (
-                  <FormGroup key={inputField.id}>
-                    <FlexboxGrid>
-                      <FlexboxGrid.Item
-                        colspan={7}
-                        style={{ justifyContent: "end" }}
-                      >
-                        <ControlLabel>{inputField.label}</ControlLabel>
-                      </FlexboxGrid.Item>
-                      <FlexboxGrid.Item colspan={14}>
-                        <Input
-                          value={inputField.state}
-                          onChange={inputField.onChange}
-                          name={inputField.name}
-                        />
-                        <small> {inputField.helpBlock} </small>
-                        <HelpBlock>
-                          {inputField.required ? "Required" : null}
-                        </HelpBlock>
-                      </FlexboxGrid.Item>
-                    </FlexboxGrid>
-                  </FormGroup>
-                ))}
-              </Panel>
-              <Panel
-                style={{
-                  display: step === 3 ? "block" : "none",
-                }}
-              >
-                {/* <StepThree /> */}
-                <Panel
-                  header=" Upload your business registration documents, for store verification e.g
-            CAC Registration etc "
-                >
-                  <Uploader
-                    multiple
-                    accept="jpg, pdf"
-                    listType="picture-text"
-                    action="//jsonplaceholder.typicode.com/posts/"
-                  />
-                </Panel>
-              </Panel>
-              <Panel
-                style={{
-                  display: step === 4 ? "block" : "none",
-                }}
-              >
                 {/* <StepFour /> */}
                 {stepThreeField.map((inputField) => (
                   <FormGroup key={inputField.id}>
@@ -687,13 +566,15 @@ export default class CreateSellerContainer extends Component {
                         colspan={7}
                         style={{ justifyContent: "end" }}
                       >
-                        <ControlLabel>{inputField.label}</ControlLabel>
+                        <ControlLabel> {inputField.label} </ControlLabel>
                       </FlexboxGrid.Item>
                       <FlexboxGrid.Item colspan={14}>
                         <Input
                           value={inputField.state}
                           onChange={inputField.onChange}
                           name={inputField.name}
+                          maxLength={inputField.max}
+                          type={inputField.type}
                         />
                         <small> {inputField.helpBlock} </small>
                         <HelpBlock>
@@ -703,6 +584,62 @@ export default class CreateSellerContainer extends Component {
                     </FlexboxGrid>
                   </FormGroup>
                 ))}
+                <FormGroup>
+                  <FlexboxGrid>
+                    <FlexboxGrid.Item
+                      colspan={7}
+                      style={{ justifyContent: "end" }}
+                    >
+                      <ControlLabel> Wallet Code </ControlLabel>
+                    </FlexboxGrid.Item>
+                    <FlexboxGrid.Item colspan={14}>
+                      <NumberFormat
+                        format="####"
+                        style={{ padding: "10px", border: "1px solid #373737" }}
+                        mask="*"
+                        renderText={(t) => (
+                          <h2 style={{ padding: "15px" }}>{t}</h2>
+                        )}
+                        type="password"
+                        onValueChange={(text) =>
+                          this.setState({ wallet_code: text.floatValue })
+                        }
+                      />
+
+                      <small> Input for digit code to access your code </small>
+                      <HelpBlock>{"Required"}</HelpBlock>
+                    </FlexboxGrid.Item>
+                  </FlexboxGrid>
+                </FormGroup>
+                <FormGroup>
+                  <FlexboxGrid>
+                    <FlexboxGrid.Item
+                      colspan={7}
+                      style={{ justifyContent: "end" }}
+                    >
+                      <ControlLabel>COnfirm Wallet Code </ControlLabel>
+                    </FlexboxGrid.Item>
+                    <FlexboxGrid.Item colspan={14}>
+                      <NumberFormat
+                        format="####"
+                        style={{ padding: "10px", border: "1px solid #373737" }}
+                        mask="*"
+                        renderText={(t) => (
+                          <h2 style={{ padding: "15px" }}>{t}</h2>
+                        )}
+                        type="password"
+                        onValueChange={(text) =>
+                          this.setState({
+                            wallet_code_confirmation: text.floatValue,
+                          })
+                        }
+                      />
+
+                      <small> Input for digit code to access your code </small>
+                      <HelpBlock>{"Required"}</HelpBlock>
+                    </FlexboxGrid.Item>
+                  </FlexboxGrid>
+                </FormGroup>
               </Panel>
               <hr />
               <ButtonGroup>
@@ -714,7 +651,7 @@ export default class CreateSellerContainer extends Component {
                   onClick={onNext}
                   loading={this.state.nextIsLoading}
                 >
-                  {this.state.nextBtn}
+                  {this.state.step === 2 ? "Finish" : "Next"}
                 </Button>
                 <Button
                   onClick={this.saveDraft}
@@ -726,7 +663,21 @@ export default class CreateSellerContainer extends Component {
             </Panel>
           </Form>
         </div>
-      </>
+      </Container>
     );
   }
 }
+const mapStateToProps = (state) => ({
+  creatingMerchant: state.auth.creatingMerchant,
+  merchant: state.auth.merchant,
+  merchantError: state.auth.merchantError,
+});
+
+const mapDispatchToProps = {
+  registerMerchant,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateSellerContainer);

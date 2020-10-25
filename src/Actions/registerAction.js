@@ -4,14 +4,16 @@ import {
     SELLER,
     STOP_CREATING_SELLER,
     ERROR_CREATING_SELLER,
-    REGISTERED,
-    IS_REGISTERING,
-    STOP_REGISTERING,
-    ERROR_REGISTERING,
+    REGISTER_USER,
+    USER,
+    REGISTRATION_ERROR,
+    MERCHANT,
+    CREATE_MERCHANT,
+    ERROR_CREATING_MERCHANT,
 } from "./types";
-
+import { token } from "../Partials/constant"
 export const registerUser = (credentials) => dispatch => {
-    dispatch({ type: IS_REGISTERING })
+    dispatch({ type: REGISTER_USER })
     const {
         name,
         email,
@@ -36,39 +38,87 @@ export const registerUser = (credentials) => dispatch => {
         })
         .then(response => {
             console.log(response.data)
-            dispatch({ type: STOP_REGISTERING })
+            localStorage.removeItem(token)
+            localStorage.setItem(token, response.data.data.token)
             dispatch({
-                type: REGISTERED,
-                payload: response.data
+                type: USER,
+                payload: response.data.data.user
             })
         })
         .catch(err => {
             console.log(err)
-            dispatch({ type: STOP_REGISTERING })
             dispatch({
-                type: ERROR_REGISTERING,
-                payload: err.response
+                type: REGISTRATION_ERROR,
+                payload: err.response && err.response.data
             })
         })
 }
 
-export function registerSeller(credentials) {
-    dispatch({ type: CREATING_SELLER })
-    API.post('/register', credentials)
+export const registerMerchant = (credentials) => dispatch => {
+    const {
+        business_name,
+        business_email,
+        business_phone,
+        business_image,
+        cityOrTown,
+        TIN,
+        BusinessRegistration,
+        VATRegistrationStatus,
+        Bank,
+        Bank_code,
+        Account_name,
+        IBAN,
+        Account_number,
+        state,
+        country,
+        wallet_code,
+        bank_name,
+        account_holder_name,
+        account_number,
+        wallet_code_confirmation,
+        iban,
+        bvn,
+        business_address,
+    } = credentials
+    dispatch({ type: CREATE_MERCHANT })
+    const userToken = localStorage.getItem(token)
+    API.post('/merchants', {
+            business_name,
+            business_email,
+            business_phone,
+            wallet_code,
+            bank_name,
+            account_holder_name,
+            account_number,
+            iban,
+            bvn,
+            business_image,
+            city: cityOrTown,
+            wallet_code_confirmation,
+            TIN,
+            BusinessRegistration,
+            VATRegistrationStatus,
+            Bank,
+            state,
+            country,
+            Bank_code,
+            Account_name,
+            IBAN,
+            business_address,
+            Account_number,
+        }, { headers: { Authorization: `Bearer ${userToken}` } })
         .then(response => {
             console.log(response.data)
-            dispatch({ type: STOP_CREATING_SELLER })
             dispatch({
-                type: SELLER,
-                payload: response.data
+                type: MERCHANT,
+                payload: response.data.merchant
             })
         })
         .catch(err => {
-            dispatch({ type: STOP_CREATING_SELLER })
             console.log(err)
             dispatch({
-                type: ERROR_CREATING_SELLER,
-                payload: err.response
+                type: ERROR_CREATING_MERCHANT,
+                payload: err.response.data
             })
         })
 }
