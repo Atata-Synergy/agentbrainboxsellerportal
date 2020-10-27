@@ -4,11 +4,23 @@ import {
     PRODUCT_CREATED,
     PRODUCT_CREATE_ERROR,
     TO_STEP_2,
+    GET_PRODUCT,
+    PRODUCTS,
+    GET_PRODUCT_ERROR,
+    GET_AD_COST,
+    AD_COST,
+    AD_COST_ERR,
+    CREATE_AD,
+    AD_CREATED,
+    AD_CREATE_ERROR,
 } from "./types";
+import { token } from '../Partials/constant';
 
-export const createProduct = ({ credentials }) => dispatch => {
+export const createProduct = ({ productData }) => dispatch => {
+    const userToken = localStorage.getItem(token)
     dispatch({ type: CREATE_PRODUCT })
-    API.post('/register', credentials)
+
+    API.post('/merchants/products', {...productData }, { headers: { Authorization: `Bearer ${userToken}` } })
         .then(response => {
             console.log(response.data)
             dispatch({
@@ -21,6 +33,72 @@ export const createProduct = ({ credentials }) => dispatch => {
             console.log(err)
             dispatch({
                 type: PRODUCT_CREATE_ERROR,
+                payload: err.response
+            })
+        })
+}
+
+export const getProducts = () => dispatch => {
+    const userToken = localStorage.getItem(token)
+    dispatch({ type: GET_PRODUCT })
+
+    API.get('/merchants/products/all', { headers: { Authorization: `Bearer ${userToken}` } })
+        .then(response => {
+            console.log(response.data)
+            dispatch({
+                type: PRODUCTS,
+                payload: response.data
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({
+                type: GET_PRODUCT_ERROR,
+                payload: err.response
+            })
+        })
+}
+
+export const getAdvertCost = (date) => dispatch => {
+    const userToken = localStorage.getItem(token)
+    dispatch({ type: GET_AD_COST })
+
+    API.post('/merchants/ad/get_cost', { date }, { headers: { Authorization: `Bearer ${userToken}` } })
+        .then(response => {
+            console.log(response.data)
+            dispatch({
+                type: AD_COST,
+                payload: response.data
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({
+                type: AD_COST_ERR,
+                payload: err.response
+            })
+        })
+}
+
+export const createAd = (adData) => dispatch => {
+    const userToken = localStorage.getItem(token)
+    dispatch({ type: CREATE_AD })
+    const {
+        ElapseDate,
+        productId
+    } = adData
+    API.post(`/merchants/ad/create/${productId}`, { ElapseDate }, { headers: { Authorization: `Bearer ${userToken}` } })
+        .then(response => {
+            console.log(response.data)
+            dispatch({
+                type: AD_CREATED,
+                payload: response.data
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({
+                type: AD_CREATE_ERROR,
                 payload: err.response
             })
         })

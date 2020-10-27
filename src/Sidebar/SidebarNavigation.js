@@ -2,7 +2,7 @@ import React, { Component, useState } from "react";
 import Sidebar from "react-sidebar";
 // import { Sidenav, Nav, Dropdown, Icon, Placeholder, Avatar } from "rsuite";
 import "semantic-ui-css/semantic.min.css";
-import { Dropdown, Icon, Input, Menu, Accordion } from "semantic-ui-react";
+import { Dropdown, Icon, Input, Menu, Accordion, Dimmer, Loader } from "semantic-ui-react";
 import CustomScroll from "react-custom-scroll";
 import "./sidebar.css";
 import {
@@ -12,6 +12,7 @@ import {
   useHistory,
   Switch,
   Route,
+  Redirect,
 } from "react-router-dom";
 // import "rsuite/dist/styles/dark.css";
 import Dashboard from "../MainScreens/Dashboard/Dashboard";
@@ -67,6 +68,12 @@ class SidebarNavigation extends Component {
   componentDidMount() {
     this.props.me();
   }
+
+  UNSAFE_componentWillMount(props){
+    if (!props.user.id) {
+      return props.history.push("/");
+    }
+  }
  
  static getDerivedStateFromProps(props, state) {
    if (props.merchant.id) {
@@ -99,8 +106,9 @@ class SidebarNavigation extends Component {
           },
         }}
       >
-        {/* <Link to={`seller/quotation/manage`}>lol</Link> */}{" "}
-        {/* <NavbarComponent /> */}
+        <Dimmer active={this.props.isLoggingIn}>
+          <Loader>{this.props.isLoggingIn && 'Authenticating'}</Loader>
+        </Dimmer>
         <Switch>
           <Route exact path={path}>
             <Dashboard />
@@ -131,6 +139,8 @@ class SidebarNavigation extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
+  isLoggingIn: state.auth.isLoggingIn,
+  authenticating: state.auth.authenticating,
   merchant: state.auth.merchant,
 });
 

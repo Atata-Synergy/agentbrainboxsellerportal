@@ -35,6 +35,7 @@ export const login = (credentials) => dispatch => {
 
 export const me = () => dispatch => {
     const userToken = localStorage.getItem(token)
+    dispatch({ type: LOGIN })
 
     API.get('/auth/me', { headers: { Authorization: `Bearer ${userToken}` } })
         .then(response => {

@@ -1,18 +1,56 @@
 import React from "react";
-import { Table} from "rsuite";
+import {
+  Table,
+  Dropdown,
+  IconButton,
+  Icon,
+  Whisper,
+  Button,
+  Popover,
+} from "rsuite";
+import { connect } from "react-redux";
+import { getProducts } from "../../Actions/productAction";
 
 class ProductList extends React.Component {
   constructor(props) {
     super(props);
-   
+    this.state = {
+      products: props.products,
+    };
   }
+
+  componentDidMount() {
+    this.props.getProducts();
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.products !== state.products) {
+      return {
+        products: props.products,
+      };
+    }
+    return null;
+  }
+
   render() {
-    const { Column, HeaderCell, Cell } = Table
+    const Speaker = ({ content, ...props }) => {
+      return (
+        <Popover title="Title" {...props}>
+          <Dropdown.Menu onSelect={() => alert('pp')}>
+            <Dropdown.Item eventKey={3}>Edit Product</Dropdown.Item>
+            <Dropdown.Item eventKey={4}>Delete Product</Dropdown.Item>
+            <Dropdown.Item eventKey={5}>Mark Item as Sold</Dropdown.Item>
+            <Dropdown.Item eventKey={6}>Update Item Sold</Dropdown.Item>
+          </Dropdown.Menu>
+        </Popover>
+      );
+    };
+    const { Column, HeaderCell, Cell } = Table;
     return (
       <div>
         <Table
           height={400}
-          data={[]}
+          data={this.state.products}
           // onRowClick={(data) => {
           //   console.log(data);
           // }}
@@ -23,55 +61,59 @@ class ProductList extends React.Component {
           </Column>
 
           <Column width={200} fixed>
-            <HeaderCell>First Name</HeaderCell>
-            <Cell dataKey="firstName" />
+            <HeaderCell>Product Name</HeaderCell>
+            <Cell dataKey="name" />
           </Column>
 
-          <Column width={200}>
-            <HeaderCell>Last Name</HeaderCell>
-            <Cell dataKey="lastName" />
+          <Column width={100}>
+            <HeaderCell>Product ID</HeaderCell>
+            <Cell dataKey="productCode" />
           </Column>
 
-          <Column width={200}>
-            <HeaderCell>City</HeaderCell>
-            <Cell dataKey="city" />
+          <Column width={250}>
+            <HeaderCell>Product Model / Short Description</HeaderCell>
+            <Cell dataKey="model" />
+          </Column>
+          <Column width={100}>
+            <HeaderCell>In Stock </HeaderCell>
+            <Cell >0</Cell>
+            {/* <Cell dataKey="model" /> */}
           </Column>
 
-          <Column width={200}>
-            <HeaderCell>Street</HeaderCell>
-            <Cell dataKey="street" />
+          <Column width={100}>
+            <HeaderCell> Product Sold </HeaderCell>
+            <Cell >0</Cell>
+            {/* <Cell dataKey="model" /> */}
           </Column>
 
-          <Column width={300}>
-            <HeaderCell>Company Name</HeaderCell>
-            <Cell dataKey="companyName" />
-          </Column>
-
-          <Column width={300}>
-            <HeaderCell>Email</HeaderCell>
-            <Cell dataKey="email" />
-          </Column>
-          {/* <Column width={120} fixed="right">
+          <Column width={120} fixed="right">
             <HeaderCell>Action</HeaderCell>
 
             <Cell>
-              {(rowData) => {
-                function handleAction() {
-                  alert(`id:${rowData.id}`);
-                }
-                return (
-                  <span>
-                    <a onClick={handleAction}> Edit </a> |{" "}
-                    <a onClick={handleAction}> Remove </a>
-                  </span>
-                );
-              }}
+              <Whisper
+                trigger="click"
+                placement={"left"}
+                speaker={<Speaker content={`I am positioned to the right`} />}
+              >
+                <IconButton
+                  appearance="subtle"
+                  icon={<Icon icon="more" />}
+                />
+              </Whisper>
             </Cell>
-          </Column> */}
+          </Column>
         </Table>
       </div>
     );
   }
 }
 
-export default ProductList;
+const mapStateToProps = (state) => ({
+  products: state.product.products,
+});
+
+const mapDispatchToProps = {
+  getProducts,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

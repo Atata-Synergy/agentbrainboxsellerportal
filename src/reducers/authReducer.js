@@ -13,6 +13,7 @@ const initialState = {
     /****Registration****/
     registerStatus: null,
     isLoggingIn: false,
+    authenticating: true,
     user: {},
     isRegistering: false,
     registrationError: null,
@@ -49,6 +50,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isLoggingIn: false,
+                authenticating: false,
                 user: action.payload,
                 isRegistering: false,
                 registrationError: null,

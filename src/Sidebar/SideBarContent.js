@@ -11,10 +11,10 @@ import "./Style.css";
 import Sidebar from "react-sidebar";
 // import { Sidenav, Nav, Dropdown, Icon, Placeholder, Avatar } from "rsuite";
 import "semantic-ui-css/semantic.min.css";
-import { Dropdown, Icon, Input, Menu, Accordion } from "semantic-ui-react";
+import { Dropdown, Icon, Input, Menu, Accordion, Placeholder} from "semantic-ui-react";
 import CustomScroll from "react-custom-scroll";
 import "./sidebar.css";
-import { Avatar, Placeholder } from "rsuite";
+import { Avatar  } from "rsuite";
 import { connect } from 'react-redux'
 
 class SideBarContent extends Component {
@@ -34,7 +34,6 @@ class SideBarContent extends Component {
     const { path, history } = this.props.props;
     const { merchant } = this.props;
     const { activeIndex } = this.state;
-    const { Paragraph } = Placeholder;
     return (
       <CustomScroll>
         <Menu
@@ -47,13 +46,22 @@ class SideBarContent extends Component {
         >
           <div className="justify-content-center  mx-auto">
             <div className="text-center m-2 p-2">
-              <Avatar circle src={merchant && merchant.logo} />
-              <p>
-                {merchant.business_name || <Paragraph rows={1} active />}
-                <br />
-                {merchant.business_email || <Paragraph rows={1}  active />}
-              </p>
-              <a href="">Edit Profile</a>
+              {merchant.id ? (
+                <>
+                  <Avatar circle src={merchant && merchant.logo} />
+                  <p>
+                    {merchant.business_name}
+                    <br />
+                    {merchant.business_email}
+                  </p>
+                  <a href="">Edit Profile</a>
+                </>
+              ) : (
+                <Placeholder.Header image>
+                  <Placeholder.Line />
+                 <p>loading</p>
+                </Placeholder.Header>
+              )}
             </div>
           </div>
         </Menu>
