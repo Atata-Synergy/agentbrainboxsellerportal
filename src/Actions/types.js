@@ -32,6 +32,7 @@ export const CLEAR_STATUS_MESSAGE = "CLEAR_STATUS_MESSAGE"
 
 export const GET_PRODUCT = "GET_PRODUCT"
 export const PRODUCTS = "PRODUCTS"
+export const PRODUCT = "PRODUCT"
 export const GET_PRODUCT_ERROR = "GET_PRODUCT_ERROR"
 
 export const TO_STEP_1 = "TO_STEP_1"

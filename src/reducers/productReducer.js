@@ -17,6 +17,7 @@ import {
     AD_CREATED,
     AD_CREATE_ERROR,
     CLEAR_STATUS_MESSAGE,
+    PRODUCT,
 } from "../Actions/types";
 
 const initialState = {
@@ -102,6 +103,14 @@ export default function(state = initialState, action) {
                 ...state,
                 gettingProducts: true,
                 productGetError: null,
+            };
+
+        case PRODUCT:
+            return {
+                ...state,
+                gettingProducts: false,
+                productGetError: null,
+                product: action.payload
             };
 
         case PRODUCTS:

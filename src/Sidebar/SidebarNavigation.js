@@ -2,7 +2,15 @@ import React, { Component, useState } from "react";
 import Sidebar from "react-sidebar";
 // import { Sidenav, Nav, Dropdown, Icon, Placeholder, Avatar } from "rsuite";
 import "semantic-ui-css/semantic.min.css";
-import { Dropdown, Icon, Input, Menu, Accordion, Dimmer, Loader } from "semantic-ui-react";
+import {
+  Dropdown,
+  Icon,
+  Input,
+  Menu,
+  Accordion,
+  Dimmer,
+  Loader,
+} from "semantic-ui-react";
 import CustomScroll from "react-custom-scroll";
 import "./sidebar.css";
 import {
@@ -55,7 +63,7 @@ class SidebarNavigation extends Component {
     this.state = {
       sidebarOpen: true,
       seller: null,
-      merchant: {}
+      merchant: {},
     };
 
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
@@ -69,20 +77,19 @@ class SidebarNavigation extends Component {
     this.props.me();
   }
 
-  UNSAFE_componentWillMount(props){
+  UNSAFE_componentWillMount(props) {
     if (!props.user.id) {
       return props.history.push("/");
     }
   }
- 
- static getDerivedStateFromProps(props, state) {
-   if (props.merchant.id) {
-     return {
-       merchant: props.merchant, 
-     };
-   }
- }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.merchant.id) {
+      return {
+        merchant: props.merchant,
+      };
+    }
+  }
 
   render() {
     const { path, url } = this.props;
@@ -107,31 +114,34 @@ class SidebarNavigation extends Component {
         }}
       >
         <Dimmer active={this.props.isLoggingIn}>
-          <Loader>{this.props.isLoggingIn && 'Authenticating'}</Loader>
+          <Loader>{this.props.isLoggingIn && "Authenticating"}</Loader>
         </Dimmer>
         <Switch>
           <Route exact path={path}>
             <Dashboard />
-          </Route>{" "}
+          </Route>
           <Route path={`${path}/quotation/manage`}>
             <ManageQuotation />
-          </Route>{" "}
+          </Route>
           <Route path={`${path}/quotation/request`}>
             <MakeQuotationRequest />
-          </Route>{" "}
+          </Route>
           <Route path={`${path}/balance`}>
             <Ballance />
-          </Route>{" "}
+          </Route>
           <Route path={`${path}/fundAccount`}>
             <FundAccount />
-          </Route>{" "}
+          </Route>
           <Route path={`${path}/products/create`}>
             <CreateProduct />
-          </Route>{" "}
-          <Route path={`${path}/products/list`}>
-            <ProductList />
-          </Route>{" "}
-        </Switch>{" "}
+          </Route>
+          <Route
+            path={`${path}/products/edit/:id`}
+            component={(props) => <CreateProduct {...props} />}
+          />
+          <Route path={`${path}/products/list`} component={props => <ProductList {...props}/>} />
+           
+        </Switch>
       </Sidebar>
     );
   }

@@ -27,7 +27,11 @@ import {
 import ProductServices from "./ProductServices";
 import { baseUrl } from "../../Partials/API";
 import { connect } from "react-redux";
-import { createProduct, createAd } from "../../Actions/productAction";
+import {
+  createProduct,
+  createAd,
+  updateProduct,
+} from "../../Actions/productAction";
 import store from "../../Helpers/Store";
 import NumberFormat from "react-number-format";
 import {
@@ -123,8 +127,11 @@ class CreateProductContainer extends Component {
           warranty: this.state.warranty.toString("html"),
           userManual: this.state.userManual.toString("html"),
           other_details: this.state.other_details.toString("html"),
+          id: this.props.product && this.props.product.id,
         };
-        this.props.createProduct({ productData });
+        this.props.product.id
+          ? this.props.updateProduct({ productData })
+          : this.props.createProduct({ productData });
         // store.dispatch({ type: TO_STEP_2 });
         break;
       case 2:
@@ -225,6 +232,41 @@ class CreateProductContainer extends Component {
   }
 
   async componentDidMount() {
+     if (this.props.product.name !== this.state.name) {
+       const {
+         category_id,
+         name,
+         model,
+         description,
+         specification,
+         price,
+         is_new,
+         isNegotiable,
+         warranty,
+         userManual,
+         other_details,
+       } = this.props.product;
+       this.setState({
+         category_id,
+         name,
+         model,
+         description: RichTextEditor.createValueFromString(description, "html"),
+         specification: RichTextEditor.createValueFromString(
+           specification,
+           "html"
+         ),
+         price,
+         is_new,
+         isNegotiable,
+         warranty: RichTextEditor.createValueFromString(warranty, "html"),
+         userManual: RichTextEditor.createValueFromString(userManual, "html"),
+         other_details: RichTextEditor.createValueFromString(
+           other_details,
+           "html"
+         ),
+       });
+     }
+    store.dispatch({ type: TO_STEP_0 });
     /**
      * Saved draft from the localStorage
      */
@@ -242,7 +284,8 @@ class CreateProductContainer extends Component {
     }
   }
 
-  componentDidUpdate(props) {
+  componentDidUpdate(props, state) {
+   
     if (props.productUpdateStatus) {
       Notification[props.productUpdateStatus ? "success" : "error"]({
         title: [props.productUpdateStatus ? "success" : "error"],
@@ -251,7 +294,7 @@ class CreateProductContainer extends Component {
       });
       // CLEAR NOTIFICATION AFTER 5 SECONDS
       setTimeout(function () {
-       store.dispatch({type: CLEAR_STATUS_MESSAGE})
+        store.dispatch({ type: CLEAR_STATUS_MESSAGE });
       }, 5000);
     }
   }
@@ -263,15 +306,6 @@ class CreateProductContainer extends Component {
         This is a help <i> tooltip </i> .
       </Tooltip>
     );
-    const { StringType, NumberType } = Schema.Types;
-    const model = Schema.Model({
-      productName: StringType().isRequired("This field is required."),
-      productModel: StringType().isRequired("This field is required."),
-      productSKU: StringType().isRequired("This field is required."),
-      productPrice: StringType().isRequired("This field is required."),
-      ProductSalePrice: StringType().isRequired("This field is required."),
-      productColour: StringType().isRequired("This field is required."),
-    });
 
     /**
      * List of all input fields
@@ -285,10 +319,12 @@ class CreateProductContainer extends Component {
         controlName: "name",
         value: this.state.name,
         onChange: (text) => this.setState({ name: text }),
-        onBlur: (text) =>
+        onBlur: (text) => {
+          console.log(text);
           this.setState({
             productNameError: this.validateInput(text),
-          }),
+          });
+        },
         type: "text",
         errorMessage: this.state.productNameError,
       },
@@ -385,7 +421,7 @@ class CreateProductContainer extends Component {
           }}
         >
           <div className="form-group row">
-            <Form model={model} layout="inline">
+            <Form layout="inline">
               <FormGroup>
                 {inputArray.map((inputField) => (
                   <div
@@ -658,6 +694,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+  updateProduct,
   createProduct,
   createAd,
 };

@@ -36,7 +36,11 @@ class ProductList extends React.Component {
     const Speaker = ({ content, ...props }) => {
       return (
         <Popover title="Title" {...props}>
-          <Dropdown.Menu onSelect={() => alert('pp')}>
+          <Dropdown.Menu
+            onSelect={() =>
+              this.props.history.push(`/seller/products/edit/${content}`)
+            }
+          >
             <Dropdown.Item eventKey={3}>Edit Product</Dropdown.Item>
             <Dropdown.Item eventKey={4}>Delete Product</Dropdown.Item>
             <Dropdown.Item eventKey={5}>Mark Item as Sold</Dropdown.Item>
@@ -76,13 +80,13 @@ class ProductList extends React.Component {
           </Column>
           <Column width={100}>
             <HeaderCell>In Stock </HeaderCell>
-            <Cell >0</Cell>
+            <Cell>0</Cell>
             {/* <Cell dataKey="model" /> */}
           </Column>
 
           <Column width={100}>
             <HeaderCell> Product Sold </HeaderCell>
-            <Cell >0</Cell>
+            <Cell>0</Cell>
             {/* <Cell dataKey="model" /> */}
           </Column>
 
@@ -90,16 +94,20 @@ class ProductList extends React.Component {
             <HeaderCell>Action</HeaderCell>
 
             <Cell>
-              <Whisper
-                trigger="click"
-                placement={"left"}
-                speaker={<Speaker content={`I am positioned to the right`} />}
-              >
-                <IconButton
-                  appearance="subtle"
-                  icon={<Icon icon="more" />}
-                />
-              </Whisper>
+              {(rowData) => {
+                return (
+                  <Whisper
+                    trigger="click"
+                    placement={"left"}
+                    speaker={<Speaker content={rowData.id} />}
+                  >
+                    <IconButton
+                      appearance="subtle"
+                      icon={<Icon icon="more" />}
+                    />
+                  </Whisper>
+                );
+              }}
             </Cell>
           </Column>
         </Table>
