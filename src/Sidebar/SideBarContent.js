@@ -116,11 +116,11 @@ class SideBarContent extends Component {
                   history.push(`${path}/products/list`);
                 }}
               />
-              <Accordion.Content
+              {/* <Accordion.Content
                 active={activeIndex === 0}
                 content="Trashed Product"
                 className="subMenu"
-              />
+              /> */}
             </Menu.Item>
           </Accordion>
           {/* Order */}

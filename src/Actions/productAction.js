@@ -14,6 +14,12 @@ import {
     AD_CREATED,
     AD_CREATE_ERROR,
     PRODUCT,
+    DELETE_PRODUCT,
+    PRODUCT_DELETED,
+    PRODUCT_DELETE_ERROR,
+    GET_ADVERTS,
+    ADVERTS,
+    ADVERTS_ERROR,
 } from "./types";
 import { token } from '../Partials/constant';
 
@@ -61,11 +67,33 @@ export const updateProduct = ({ productData }) => dispatch => {
         })
 }
 
+export const deleteProduct = (id) => dispatch => {
+    const userToken = localStorage.getItem(token)
+    dispatch({ type: DELETE_PRODUCT })
+
+    API.delete(`/merchants/products/${id}`, { headers: { Authorization: `Bearer ${userToken}` } })
+        .then(response => {
+            console.log(response.data)
+            dispatch({
+                type: PRODUCT_DELETED,
+                payload: response.data
+            })
+            dispatch({ type: TO_STEP_2 })
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({
+                type: PRODUCT_DELETE_ERROR,
+                payload: err.response
+            })
+        })
+}
+
 export const getProducts = () => dispatch => {
     const userToken = localStorage.getItem(token)
     dispatch({ type: GET_PRODUCT })
 
-    API.get('/merchants/products/all', { headers: { Authorization: `Bearer ${userToken}` } })
+    API.get('/merchants/products', { headers: { Authorization: `Bearer ${userToken}` } })
         .then(response => {
             console.log(response.data)
             dispatch({
@@ -143,6 +171,27 @@ export const createAd = (adData) => dispatch => {
             console.log(err)
             dispatch({
                 type: AD_CREATE_ERROR,
+                payload: err.response
+            })
+        })
+}
+export const getAdvert = () => dispatch => {
+    const userToken = localStorage.getItem(token)
+    dispatch({ type: GET_ADVERTS })
+
+
+    API.get(`/merchants/ad`, { headers: { Authorization: `Bearer ${userToken}` } })
+        .then(response => {
+            console.log(response.data)
+            dispatch({
+                type: ADVERTS,
+                payload: response.data
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({
+                type: ADVERTS_ERROR,
                 payload: err.response
             })
         })

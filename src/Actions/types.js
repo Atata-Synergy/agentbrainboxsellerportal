@@ -33,6 +33,11 @@ export const CLEAR_STATUS_MESSAGE = "CLEAR_STATUS_MESSAGE"
 export const GET_PRODUCT = "GET_PRODUCT"
 export const PRODUCTS = "PRODUCTS"
 export const PRODUCT = "PRODUCT"
+
+export const DELETE_PRODUCT = "DELETE_PRODUCT"
+export const PRODUCT_DELETED = "PRODUCT_DELETED"
+export const PRODUCT_DELETE_ERROR = "PRODUCT_DELETE_ERROR"
+
 export const GET_PRODUCT_ERROR = "GET_PRODUCT_ERROR"
 
 export const TO_STEP_1 = "TO_STEP_1"
@@ -48,3 +53,7 @@ export const AD_COST_ERR = "AD_COST_ERR"
 export const CREATE_AD = "CREATE_AD"
 export const AD_CREATED = "AD_CREATED"
 export const AD_CREATE_ERROR = "AD_CREATE_ERROR"
+
+export const GET_ADVERTS = "GET_ADVERTS"
+export const ADVERTS = "ADVERTS"
+export const ADVERTS_ERROR = "ADVERTS_ERROR"

@@ -82,7 +82,7 @@ export const registerMerchant = (credentials) => dispatch => {
     } = credentials
     dispatch({ type: CREATE_MERCHANT })
     const userToken = localStorage.getItem(token)
-    API.post('/merchants', {
+    API.post('/merchants/profile', {
             business_name,
             business_email,
             business_phone,

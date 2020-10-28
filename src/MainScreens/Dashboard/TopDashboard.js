@@ -4,8 +4,8 @@ export default class TopDashboard extends Component {
   render() {
     return (
       <Fragment>
-        <div className='tile_count'>
-          <div className="col-md-2 col-sm-4 tile_stats_count">
+        <div className='tile_count row'>
+          <div className="col-md-3 col-xs-12 tile_stats_count">
             <span className="count_top">
               <i className="fa fa-user"> </i> Successful Orders
             </span>
@@ -14,19 +14,7 @@ export default class TopDashboard extends Component {
               <i className="green"> 4 % </i> From last Week
             </span>
           </div>
-          <div className="col-md-2 col-sm-4 tile_stats_count">
-            <span className="count_top">
-              <i className="fa fa-clock-o"> </i> Quotations Received
-            </span>
-            <div className="count"> 50 </div>
-            <span className="count_bottom">
-              <i className="red">
-                <i className="fa fa-sort-asc"> </i>-3%
-              </i>{" "}
-              From last Week
-            </span>
-          </div>
-          <div className="col-md-2 col-sm-4 tile_stats_count">
+          <div className="col-md-3 col-xs-12 tile_stats_count">
             <span className="count_top">
               <i className="fa fa-user"> </i> Products In Stock
             </span>
@@ -38,7 +26,7 @@ export default class TopDashboard extends Component {
               in Trash
             </span>
           </div>
-          <div className="col-md-2 col-sm-4 tile_stats_count">
+          <div className="col-md-3 col-xs-12 tile_stats_count">
             <span className="count_top">
               <i className="fa fa-user"> </i> Pending Payment
             </span>
@@ -49,9 +37,9 @@ export default class TopDashboard extends Component {
               </i>
             </a>
           </div>
-          <div className="col-md-2 col-sm-4 tile_stats_count">
+          <div className="col-md-3 col-xs-12 tile_stats_count">
             <span className="count_top">
-              <i className="fa fa-user"> </i> Total Collections
+              <i className="fa fa-user"> </i> Total Products
             </span>
             <div className="count"> 2, 315 </div>
             <span className="count_bottom">
@@ -59,18 +47,6 @@ export default class TopDashboard extends Component {
                 <i className="fa fa-sort-asc"> </i>34%
               </i>
               From last Week
-            </span>
-          </div>
-          <div className="col-md-2 col-sm-4 tile_stats_count">
-            <span className="count_top">
-              <i className="fa fa-user"> </i> Top Selling Product
-            </span>
-            <div className="count"> Product Name </div>
-            <span className="count_bottom">
-              <i className="green">
-                <i className="fa fa-sort-asc"> </i>2,000
-              </i>{" "}
-              Sold
             </span>
           </div>
         </div>

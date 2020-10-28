@@ -2,20 +2,22 @@ import React, { Component } from "react";
 import { Placeholder, Button } from "rsuite";
 
 export default class Promotion extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       day: 0,
       hour: 0,
       Min: 0,
       seconds: 0,
+      countDownDate: new Date(
+        props.advertisement && props.advertisement.ElapseDate
+      ).getTime(),
     };
   }
 
   render() {
     // Set the date we're counting down to
-    var countDownDate = new Date("May, 17, 2020 01:00:00").getTime();
-
+    const { countDownDate } = this.state;
     var app = this;
     // Update the count down every 1 second
     var x = setInterval(function () {
@@ -47,10 +49,10 @@ export default class Promotion extends Component {
       }
 
       app.setState({
-        days: days > 0 ? days : '00',
-        hours: hours > 0 ? hours : '00',
-        seconds: seconds > 0 ? seconds : '00',
-        minutes: minutes > 0 ? minutes : '00',
+        days: days > 0 ? days : "00",
+        hours: hours > 0 ? hours : "00",
+        seconds: seconds > 0 ? seconds : "00",
+        minutes: minutes > 0 ? minutes : "00",
       });
     }, 1000);
     const { hours, minutes, seconds } = this.state;
@@ -61,16 +63,23 @@ export default class Promotion extends Component {
           style={{ textAlign: "center", backgroundColor: "#474747" }}
         >
           <div>
-            <p style={{ color: "#fff" }}>Promotion expires in </p>
+            <p style={{ color: "#fff" }}>Advert expires in </p>
             <h4 style={{ color: "#fff" }}>
               {hours}:{minutes}:{seconds}
             </h4>
           </div>
         </div>
-        <Placeholder.Graph active />
-        <Button appearance="primary" block>
-          Join Promotion
-        </Button>
+        <div className="card-img">
+          <img src={this.props.media[0].path} />
+        </div>
+        <hr className="my-4"/>
+        <div className="card-body">
+          <div className="mx-auto text-center">
+            <h4>{this.props.name}</h4>
+            <p>{this.props.model}</p>
+            <p>{this.props.price}</p>
+          </div>
+        </div>
       </div>
     );
   }

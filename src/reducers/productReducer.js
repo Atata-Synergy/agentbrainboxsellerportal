@@ -18,6 +18,12 @@ import {
     AD_CREATE_ERROR,
     CLEAR_STATUS_MESSAGE,
     PRODUCT,
+    DELETE_PRODUCT,
+    PRODUCT_DELETED,
+    PRODUCT_DELETE_ERROR,
+    GET_ADVERTS,
+    ADVERTS,
+    ADVERTS_ERROR,
 } from "../Actions/types";
 
 const initialState = {
@@ -28,6 +34,11 @@ const initialState = {
     products: [],
     gettingProducts: false,
     productGetError: null,
+    /*******   *******/
+    isFetchingAds: false,
+    adverts: [],
+    advertErrors: null,
+
     /*******   *******/
     gettingAdCost: false,
     ad_cost: 0,
@@ -47,15 +58,54 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch (action.type) {
+        case GET_ADVERTS:
+            return {
+                ...state,
+                isFetchingAds: true,
+                advertErrors: null,
+
+            };
+        case ADVERTS:
+            return {
+                ...state,
+                isFetchingAds: false,
+                adverts: action.payload
+            };
+        case ADVERTS_ERROR:
+            return {
+                ...state,
+                isFetchingAds: false,
+                adverts: action.payload,
+            };
         case CLEAR_STATUS_MESSAGE:
             return {
                 ...state,
                 productUpdateStatus: null
             };
-        case CREATE_AD:
+
+        case DELETE_PRODUCT:
             return {
                 ...state,
-                productUpdateStatus: null
+                productUpdateStatus: null,
+                deletingProduct: true
+            };
+        case PRODUCT_DELETED:
+            return {
+                ...state,
+                deletingProduct: false,
+                productUpdateStatus: {
+                    message: "Product has been deleted",
+                    success: true
+                },
+            };
+        case PRODUCT_DELETE_ERROR:
+            return {
+                ...state,
+                deletingProduct: false,
+                productUpdateStatus: {
+                    message: JSON.stringify(action.payload),
+                    success: false
+                },
             };
         case AD_CREATED:
             return {

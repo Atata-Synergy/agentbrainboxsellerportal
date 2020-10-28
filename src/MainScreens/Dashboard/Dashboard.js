@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TopDashboard from "./TopDashboard";
 import CurrencyConverterSlide from "./CurrencyConverterSlide";
 import { Row, Panel, Placeholder, Message } from "rsuite";
@@ -8,7 +8,7 @@ import "react-component-countdown-timer/lib/styles.css";
 import ChartReport from "./ChartReport";
 import SellerNotificationColThree from "../GeneralNotification/SellerNotificationColThree";
 import { connect } from 'react-redux'
-
+import { getAdvert, getProducts } from "../../Actions/productAction";
 function Dashboard(props) {
   const { Paragraph } = Placeholder;
   const { merchant } = props
@@ -18,6 +18,9 @@ function Dashboard(props) {
     showTitle: true,
     noPoints: true,
   };
+  useEffect(() => {
+  props.getProducts();
+  }, [])
   return (
     <div
       className="container"
@@ -40,23 +43,16 @@ function Dashboard(props) {
           </div>
         </div>
       </div>
-      <div className="container">
+      {/* <div className="container">
         <div className="row  p-3" style={{ justifyContent: "space-between" }}>
-          <div className="col-xs-12 col-md-8">
-            <div className="row p-3 bg-light">
-              <div className="col-12">
-                <CurrencyConverterSlide />
-              </div>
-            </div>
-          </div>
           <div className="col-xs-12 col-md-4 ">
             <SellerNotificationColThree />
           </div>
         </div>
+      </div> */}
+      <div className="w-100">
+        <PromotionSlick products = {props.products} />
       </div>
-      <Row>
-        <PromotionSlick />
-      </Row>
       <div className="row p-3">
         <Panel header="Monthly Report">
           <ChartReport />
@@ -67,10 +63,12 @@ function Dashboard(props) {
 }
 
 const mapStateToProps = (state) => ({
-  merchant: state.auth.merchant
-})
+  merchant: state.auth.merchant,
+  products: state.product.products,
+});
 
 const mapDispatchToProps = {
-  
-}
+  getAdvert,
+  getProducts,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
