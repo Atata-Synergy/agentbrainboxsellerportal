@@ -37,6 +37,9 @@ import SideBarContent from "./SideBarContent";
 import fetchUser from "../Partials/Fetch";
 import { me } from "../Actions/loginAction";
 import { connect } from "react-redux";
+import RecentOrder from "../MainScreens/Order/RecentOrder";
+const mql = window.matchMedia(`(min-width: 800px)`);
+
 const panelStyles = {
   padding: "15px 20px",
   color: "rgb(218, 216, 216)",
@@ -61,30 +64,35 @@ class SidebarNavigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sidebarOpen: true,
+      sidebarOpen: false,
       seller: null,
       merchant: {},
+      sidebarDocked: mql.matches,
     };
-
+    props.me();
+    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+    mql.addListener(this.mediaQueryChanged);
   }
 
   onSetSidebarOpen(open) {
     this.setState({ sidebarOpen: open });
   }
-
-  componentDidMount() {
-    this.props.me();
+  componentWillUnmount() {
+    mql.removeListener(this.mediaQueryChanged);
   }
-
-  UNSAFE_componentWillMount(props) {
-    if (!props.user.id) {
-      return props.history.push("/");
+  componentDidUpdate(props) {
+    if (props.user.id && !props.merchant) {
+      return props.history.push("/seller/create/Account");
     }
+    // if (props.isLoggingIn === false && !props.user.id)
+    //   return this.props.history.push("/");
   }
-
+  mediaQueryChanged() {
+    this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
+  }
   static getDerivedStateFromProps(props, state) {
-    if (props.merchant.id) {
+    if (props.merchant && props.merchant.id) {
       return {
         merchant: props.merchant,
       };
@@ -97,7 +105,7 @@ class SidebarNavigation extends Component {
 
     return (
       <Sidebar
-        docked
+        docked={this.state.sidebarDocked}
         sidebar={
           <SideBarContent props={this.props} seller={this.state.seller} />
         }
@@ -139,8 +147,14 @@ class SidebarNavigation extends Component {
             path={`${path}/products/edit/:id`}
             component={(props) => <CreateProduct {...props} />}
           />
-          <Route path={`${path}/products/list`} component={props => <ProductList {...props}/>} />
-           
+          <Route
+            path={`${path}/products/list`}
+            component={(props) => <ProductList {...props} />}
+          />
+          <Route
+            path={`${path}/received-orders`}
+            component={(props) => <RecentOrder {...props} />}
+          />
         </Switch>
       </Sidebar>
     );

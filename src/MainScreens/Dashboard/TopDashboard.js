@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from "react";
+import { connect } from 'react-redux'
 
-export default class TopDashboard extends Component {
+class TopDashboard extends Component {
   render() {
     return (
       <Fragment>
-        <div className='tile_count row'>
+        <div className="tile_count row">
           <div className="col-md-3 col-xs-12 tile_stats_count">
             <span className="count_top">
               <i className="fa fa-user"> </i> Successful Orders
@@ -41,12 +42,12 @@ export default class TopDashboard extends Component {
             <span className="count_top">
               <i className="fa fa-user"> </i> Total Products
             </span>
-            <div className="count"> 2, 315 </div>
+            <div className="count"> {this.props.products && this.props.products.length} </div>
             <span className="count_bottom">
               <i className="green">
-                <i className="fa fa-sort-asc"> </i>34%
+                <i className="fa fa-sort-asc"> </i>0
               </i>
-              From last Week
+             sold
             </span>
           </div>
         </div>
@@ -54,3 +55,13 @@ export default class TopDashboard extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  products: state.product.products
+})
+
+const mapDispatchToProps = {
+  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopDashboard);

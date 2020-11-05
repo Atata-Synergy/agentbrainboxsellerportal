@@ -46,7 +46,7 @@ class SideBarContent extends Component {
         >
           <div className="justify-content-center  mx-auto">
             <div className="text-center m-2 p-2">
-              {merchant.id ? (
+              {merchant && merchant.id ? (
                 <>
                   <Avatar circle src={merchant && merchant.logo} />
                   <p>
@@ -132,7 +132,7 @@ class SideBarContent extends Component {
             <Menu.Item>
               <Accordion.Title
                 active={activeIndex === 1}
-                content="Orders"
+                content="Received Orders"
                 index={1}
                 onClick={this.handleClick}
                 className="menu"
@@ -141,7 +141,7 @@ class SideBarContent extends Component {
                 active={activeIndex === 1}
                 content=" Recent Orders"
                 onClick={() => {
-                  history.push(`${path}/order/recent`);
+                  history.push(`${path}/received-orders`);
                   //   setEvent(4);
                 }}
                 className="subMenu"
@@ -151,7 +151,7 @@ class SideBarContent extends Component {
                 content="Order Analysis"
                 className="subMenu"
                 onClick={() => {
-                  history.push(`${path}/products/list`);
+                  history.push(`${path}/received-orders/history`);
                 }}
               />
             </Menu.Item>
@@ -305,7 +305,7 @@ class SideBarContent extends Component {
                 active={activeIndex === 6}
                 content="Saved Cart"
                 onClick={() => {
-                  history.push(`${path}/order/recent`);
+                  history.push(`${path}/order`);
                   //   setEvent(6);
                 }}
                 className="subMenu"

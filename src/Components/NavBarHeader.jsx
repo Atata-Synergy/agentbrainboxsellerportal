@@ -48,51 +48,6 @@ const NavBarHeader = () => {
                 </a>
               </div>
             </div>
-
-            <div className="col-md-6">
-              <div className="header-search">
-                <form>
-                  <select className="input-select">
-                    <option value="0">All Categories</option>
-                    <option value="1">Category 01</option>
-                    <option value="1">Category 02</option>
-                  </select>
-                  <input className="input" placeholder="Search here" />
-                  <button className="search-btn">Search</button>
-                </form>
-              </div>
-            </div>
-
-            <div className="col-md-3 clearfix">
-              <div className="header-ctn">
-                <div>
-                  <a href="#">
-                    <i className="fa fa-heart-o"></i>
-                    <span>Your Wishlist</span>
-                    <div className="qty">2</div>
-                  </a>
-                </div>
-
-                <div className="dropdown">
-                  <a
-                    className="dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-expanded="true"
-                  >
-                    <i className="fa fa-shopping-cart"></i>
-                    <span>Your Cart</span>
-                    <div className="qty">3</div>
-                  </a>
-                </div>
-
-                <div className="menu-toggle">
-                  <a href="#">
-                    <i className="fa fa-bars"></i>
-                    <span>Menu</span>
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

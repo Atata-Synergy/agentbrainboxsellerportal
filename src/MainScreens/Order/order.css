@@ -1,0 +1,38 @@
+.active-order {
+    color: rgb(54, 158, 54);
+    animation: active 1s infinite;
+}
+
+.warning-order {
+    color: rgb(230, 213, 61);
+    animation: active 0.7s infinite;
+}
+
+.failed-order {
+    color: rgb(233, 57, 57);
+}
+
+.success-order {
+    color: rgb(54, 158, 54);
+}
+
+@keyframes active {
+    0% {
+        opacity: .0;
+    }
+    20% {
+        opacity: 0.2;
+    }
+    40% {
+        opacity: 0.4;
+    }
+    60% {
+        opacity: .6;
+    }
+    80% {
+        opacity: .4;
+    }
+    100% {
+        opacity: .2;
+    }
+}

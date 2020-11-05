@@ -1,5 +1,18 @@
 import React from "react";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
+import OrderTable from "./OrderTable";
 
 export default function RecentOrder() {
-  return <p>RecentOrder ni</p>;
+  const { path } = useRouteMatch();
+  return (
+    <>
+      <Switch>
+        <Route
+          exact
+          path={path}
+          component={(props) => <OrderTable {...props} />}
+        />
+      </Switch>
+    </>
+  );
 }
