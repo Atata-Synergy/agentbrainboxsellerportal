@@ -148,10 +148,10 @@ class SideBarContent extends Component {
               />
               <Accordion.Content
                 active={activeIndex === 1}
-                content="Order Analysis"
+                content="Transactions"
                 className="subMenu"
                 onClick={() => {
-                  history.push(`${path}/received-orders/history`);
+                  history.push(`${path}/transaction`);
                 }}
               />
             </Menu.Item>

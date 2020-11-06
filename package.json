@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "draft-js": "^0.11.5",
+    "google-map-react": "^2.1.9",
     "html-to-draftjs": "^1.5.0",
     "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",

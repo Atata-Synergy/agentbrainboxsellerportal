@@ -29,7 +29,8 @@ function CartModal({ ...props }) {
               <div class="order-products">
                 <div class="order-col">
                   <div>
-                    {props.data.item_qty}x {props.data.name}
+                    {props.data.item_qty}x{" "}
+                    {props.data.item && props.data.item.name}
                   </div>
                   <div>₦{props.data.item_price}</div>
                 </div>

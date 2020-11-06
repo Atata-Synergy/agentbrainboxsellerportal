@@ -38,6 +38,7 @@ import fetchUser from "../Partials/Fetch";
 import { me } from "../Actions/loginAction";
 import { connect } from "react-redux";
 import RecentOrder from "../MainScreens/Order/RecentOrder";
+import Transaction from "../MainScreens/Transaction";
 const mql = window.matchMedia(`(min-width: 800px)`);
 
 const panelStyles = {
@@ -154,6 +155,10 @@ class SidebarNavigation extends Component {
           <Route
             path={`${path}/received-orders`}
             component={(props) => <RecentOrder {...props} />}
+          />
+          <Route
+            path={`${path}/transaction`}
+            component={(props) => <Transaction {...props} />}
           />
         </Switch>
       </Sidebar>
