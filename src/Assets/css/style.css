@@ -307,6 +307,7 @@ th {
     }
 }
 
+
 /*@font-face {
     font-family: 'Glyphicons Halflings';
     src: url(../fonts/glyphicons-halflings-regular.eot);
@@ -8155,11 +8156,14 @@ button.close {
 @charset 'UTF-8';
 
 /* Slider */
+
+
 /*
 .slick-loading .slick-list {
     background: #fff url('./ajax-loader.gif') center center no-repeat;
 }
 */
+
 
 /* Icons */
 
@@ -11958,6 +11962,7 @@ th {
         border: 1px solid #ddd!important
     }
 }
+
 
 /*@font-face {
     font-family: 'Glyphicons Halflings';
@@ -19806,7 +19811,8 @@ button.close {
 
 /* Slider */
 
-   /*.slick-loading .slick-list {
+
+/*.slick-loading .slick-list {
  background: #fff url('./ajax-loader.gif') center center no-repeat;
 }*/
 
@@ -23609,6 +23615,7 @@ th {
     }
 }
 
+
 /*@font-face {
     font-family: 'Glyphicons Halflings';
     src: url(../fonts/glyphicons-halflings-regular.eot);
@@ -31456,7 +31463,8 @@ button.close {
 
 /* Slider */
 
-.slick-loading /*.slick-list {
+.slick-loading
+/*.slick-list {
     background: #fff url('./ajax-loader.gif') center center no-repeat;
 }*/
 
@@ -35259,6 +35267,7 @@ th {
     }
 }
 
+
 /*@font-face {
     font-family: 'Glyphicons Halflings';
     src: url(../fonts/glyphicons-halflings-regular.eot);
@@ -43105,6 +43114,8 @@ button.close {
 @charset 'UTF-8';
 
 /* Slider */
+
+
 /*
 .slick-loading .slick-list {
     background: #fff url('./ajax-loader.gif') center center no-repeat;
@@ -46909,6 +46920,7 @@ th {
     }
 }
 
+
 /*@font-face {
     font-family: 'Glyphicons Halflings';
     src: url(../fonts/glyphicons-halflings-regular.eot);
@@ -54755,6 +54767,8 @@ button.close {
 @charset 'UTF-8';
 
 /* Slider */
+
+
 /*
 .slick-loading .slick-list {
     background: #fff url('./ajax-loader.gif') center center no-repeat;
@@ -60535,7 +60549,6 @@ textarea.input {
 }
 
 
-
 /*=========================================================
 	13 -> RESPONSIVE
 ===========================================================*/
@@ -60576,6 +60589,34 @@ textarea.input {
         margin-top: 10px;
     }
     .section-tab-nav li {
+        margin-top: 10px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    [class*='col-xs'] {
+        width: 100%;
+    }
+    .store-grid {
+        float: none;
+        margin-top: 10px;
+    }
+    .store-pagination {
+        float: none;
+        margin-top: 10px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    [class*='col-xs'] {
+        width: 100%;
+    }
+    .store-grid {
+        float: none;
+        margin-top: 10px;
+    }
+    .store-pagination {
+        float: none;
         margin-top: 10px;
     }
 }

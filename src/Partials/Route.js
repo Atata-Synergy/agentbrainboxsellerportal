@@ -2,8 +2,6 @@ import Dashboard from "../MainScreens/Dashboard/Dashboard";
 import RecentOrder from "../MainScreens/Order/RecentOrder";
 import ManageQuotation from "../MainScreens/Quotations/ManageQuotation";
 import MakeQuotationRequest from "../MainScreens/Quotations/MakeQuotationRequest";
-import Ballance from "../MainScreens/Wallet/Ballance";
-import FundAccount from "../MainScreens/Wallet/FundAccount";
 import CreateProduct from "../MainScreens/Products/CreateProduct";
 import ProductList from "../MainScreens/Products/ProductList";
 import SignIn from "../MainScreens/AuthScreens/SignIn";
@@ -57,16 +55,7 @@ export const authenticatedRoute = [{
         sidebar: SidebarNavigation,
         main: MakeQuotationRequest,
     },
-    {
-        path: "/wallet/ballance",
-        sidebar: SidebarNavigation,
-        main: Ballance,
-    },
-    {
-        path: "/wallet/fund",
-        sidebar: SidebarNavigation,
-        main: FundAccount,
-    },
+
     {
         path: "/products/create",
         sidebar: SidebarNavigation,

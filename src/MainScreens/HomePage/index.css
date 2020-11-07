@@ -30,13 +30,13 @@ nav {
 }
 
 .body-text {
-    color: white;
-    font-size: 40px;
-    width: 40%;
-    text-transform: uppercase;
-    align-self: center;
-    margin: 2em 20px;
-    font-weight: bold;
+    color: white !important;
+    font-size: 40px !important;
+    width: 40% !important;
+    text-transform: uppercase !important;
+    align-self: center !important;
+    margin: 2em 20px !important;
+    font-weight: bold !important;
 }
 
 .nav-links {

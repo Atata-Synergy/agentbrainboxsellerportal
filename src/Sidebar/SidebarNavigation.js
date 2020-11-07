@@ -27,8 +27,6 @@ import Dashboard from "../MainScreens/Dashboard/Dashboard";
 import CreateSeller from "../MainScreens/AuthScreens/CreateSellerContainer";
 import ManageQuotation from "../MainScreens/Quotations/ManageQuotation";
 import MakeQuotationRequest from "../MainScreens/Quotations/MakeQuotationRequest";
-import Ballance from "../MainScreens/Wallet/Ballance";
-import FundAccount from "../MainScreens/Wallet/FundAccount";
 import CreateProduct from "../MainScreens/Products/CreateProduct";
 import ProductList from "../MainScreens/Products/ProductList";
 import verifyToken from "../Partials/Authentication";
@@ -39,6 +37,7 @@ import { me } from "../Actions/loginAction";
 import { connect } from "react-redux";
 import RecentOrder from "../MainScreens/Order/RecentOrder";
 import Transaction from "../MainScreens/Transaction";
+import Wallet  from "../MainScreens/Wallet/WalletRoute";
 const mql = window.matchMedia(`(min-width: 800px)`);
 
 const panelStyles = {
@@ -135,12 +134,6 @@ class SidebarNavigation extends Component {
           <Route path={`${path}/quotation/request`}>
             <MakeQuotationRequest />
           </Route>
-          <Route path={`${path}/balance`}>
-            <Ballance />
-          </Route>
-          <Route path={`${path}/fundAccount`}>
-            <FundAccount />
-          </Route>
           <Route path={`${path}/products/create`}>
             <CreateProduct />
           </Route>
@@ -160,6 +153,11 @@ class SidebarNavigation extends Component {
             path={`${path}/transaction`}
             component={(props) => <Transaction {...props} />}
           />
+            <Route
+            path={`${path}/wallet`}
+            component={(props) => <Wallet {...props} />}
+          />
+          
         </Switch>
       </Sidebar>
     );

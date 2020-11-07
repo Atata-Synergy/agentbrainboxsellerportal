@@ -174,7 +174,7 @@ class SideBarContent extends Component {
                 active={activeIndex === 4}
                 content="Wallet Dashboard"
                 onClick={() => {
-                  history.push(`${path}/order/recent`);
+                  history.push(`${path}/wallet`);
                   //   setEvent(4);
                 }}
                 className="subMenu"

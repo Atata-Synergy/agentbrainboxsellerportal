@@ -594,7 +594,7 @@ class CreateSellerContainer extends Component {
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item colspan={14}>
                       <NumberFormat
-                        format="####"
+                        format="######"
                         style={{ padding: "10px", border: "1px solid #373737" }}
                         mask="*"
                         renderText={(t) => (
@@ -621,12 +621,9 @@ class CreateSellerContainer extends Component {
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item colspan={14}>
                       <NumberFormat
-                        format="####"
+                        format="######"
                         style={{ padding: "10px", border: "1px solid #373737" }}
                         mask="*"
-                        renderText={(t) => (
-                          <h2 style={{ padding: "15px" }}>{t}</h2>
-                        )}
                         type="password"
                         onValueChange={(text) =>
                           this.setState({
