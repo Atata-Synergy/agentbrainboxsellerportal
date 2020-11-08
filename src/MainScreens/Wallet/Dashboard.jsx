@@ -1,10 +1,15 @@
 import React from "react";
 import "../../Assets/css/argon.min.css";
 import { Link } from "react-router-dom";
-import { Icon } from "rsuite";
+import { Icon, Timeline } from "rsuite";
 import { connect } from "react-redux";
+import {getWalletInfo} from '../../Actions/walletAction'
+import { useEffect } from "react";
 
 function Dashboard(props) {
+  useEffect(() => {
+   props.getWalletInfo();
+  }, [])
   return (
     <div className="main-content" id="panel">
       <div className="header bg-primary pb-6">
@@ -82,7 +87,8 @@ function Dashboard(props) {
                 <div className="row">
                   <div className="col m-2">
                     <h4 className="text-light">
-                      Account Ballance: ${props.walletInfo && props.walletInfo.ballance}
+                      Account Ballance: $
+                      {props.walletInfo && props.walletInfo.ballance}
                     </h4>
                   </div>
                   <div className="col m-2">
@@ -105,6 +111,14 @@ function Dashboard(props) {
                 <div className="row align-items-center">
                   <div className="col">
                     <h5 className="h3 mb-0">Recent Transaction</h5>
+                    <div className="mt-4">
+                      <Timeline>
+                        {props.walletHistory.data &&
+                          props.walletHistory.data.map((history) => (
+                            <Timeline.Item>{`${history.created_at} ${history.payload}`}</Timeline.Item>
+                          ))}
+                      </Timeline>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -126,11 +140,12 @@ const mapStateToProps = (state) => ({
   walletToken: state.wallet.walletToken,
   walletErrors: state.wallet.walletErrors,
   walletInfo: state.wallet.walletInfo,
+  walletHistory: state.wallet.walletHistory,
 });
 
 
 const mapDispatchToProps = {
-  
-}
+  getWalletInfo,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

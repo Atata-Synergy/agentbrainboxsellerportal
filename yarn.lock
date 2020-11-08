@@ -10112,6 +10112,11 @@ react-overlays@^4.1.0:
     uncontrollable "^7.0.0"
     warning "^4.0.3"
 
+react-paystack@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-paystack/-/react-paystack-3.0.2.tgz#da2237e750fd818e3496b12ed8131dc79f16962f"
+  integrity sha512-bSiyb0a+DpBhTeyh0jZ0XERuwmZ1Q7Ryje9OLRvpCjkt8c9jW/VP+MhPo0pC4laA7ejS3fxdAqmx6CY84Fx/tw==
+
 react-perfect-scrollbar@^1.5.8:
   version "1.5.8"
   resolved "https://registry.yarnpkg.com/react-perfect-scrollbar/-/react-perfect-scrollbar-1.5.8.tgz#380959387a325c5c9d0268afc08b3f73ed5b3078"

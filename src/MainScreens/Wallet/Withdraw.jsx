@@ -1,40 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Container, FlexboxGrid, Panel, Row, Button, Divider } from "rsuite";
-import Col from "rsuite/lib/Carousel";
-import {
-  usePaystackPayment,
-  PaystackButton,
-  PaystackConsumer,
-} from "react-paystack";
 import NumberFormat from "react-number-format";
 import { useState } from "react";
-import { fundAccount } from "../../Actions/walletAction";
+import { withdrawFund } from "../../Actions/walletAction";
 
-const FundAccount = (props) => {
+const Withdraw = (props) => {
   const [amount, setAmount] = useState(0);
-  const [config, setConfig] = useState({});
-  const [reference, setReference] = useState(new Date().getTime());
-  const [email, setEmail] = useState(props.merchant.business_email);
 
-  const componentProps = {
-    email,
-    amount: amount * 100,
-    metadata: {
-      purpose: "fund account",
-      merchant: { ...props.merchant },
-    },
-    publicKey: process.env.REACT_APP_PAYSTACK_KEY,
-    text: "Pay Now",
-    onSuccess: (response) => {
-      const data = {
-        reference: response.reference,
-        amount,
-      };
-      props.fundAccount(data);
-    },
-    onClose: () => alert("Wait! Don't leave :("),
-  };
+  
   return (
     <>
       <Container>
@@ -47,17 +21,24 @@ const FundAccount = (props) => {
                 <hr className="p-4 my-4" />
                 <div className="text-center">
                   <p>
-                    <strong className="text-primary">Your current balance</strong>: <br />
-                    <span style={{ fontSize: "3em" }}>₦{props.walletInfo && props.walletInfo.ballance}</span>
+                    <strong className="text-primary">
+                      Your current balance
+                    </strong>
+                    : <br />
+                    <span style={{ fontSize: "3em" }}>
+                      ₦{props.walletInfo && props.walletInfo.ballance}
+                    </span>
                   </p>
                   <div className="form-group">
                     <label htmlFor="Amount" className="form-control-label mr-4">
-                      Input Amount
+                      How much will you like to withdraw?
                     </label>
+                    <br />
                     <NumberFormat
                       style={{
                         border: "1px solid #f1f1f3",
                         padding: "10px",
+                        fontSize: "16px",
                       }}
                       thousandSeparator={true}
                       placeholder="₦"
@@ -66,10 +47,13 @@ const FundAccount = (props) => {
                       value={amount}
                     />
                   </div>
-                  <PaystackButton
-                    className="btn btn-success btn-flat  p-3 btn-block"
-                    {...componentProps}
-                  />
+                  <Button
+                    onClick={() => props.withdrawFund(amount)}
+                    className="btn-primary btn-flat p-3 mx-4"
+                    block
+                  >
+                    Make Request
+                  </Button>
                 </div>
               </div>
             </div>
@@ -86,7 +70,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  fundAccount,
+  withdrawFund,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FundAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(Withdraw);

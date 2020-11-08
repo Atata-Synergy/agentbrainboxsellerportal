@@ -117,7 +117,7 @@ class SidebarNavigation extends Component {
             overflowY: "scroll",
             overflowX: "hidden",
             position: "fixed",
-            backgroundColor: " rgb(51, 51, 51)",
+            backgroundColor: "#1c9056",
           },
         }}
       >
@@ -153,11 +153,10 @@ class SidebarNavigation extends Component {
             path={`${path}/transaction`}
             component={(props) => <Transaction {...props} />}
           />
-            <Route
+          <Route
             path={`${path}/wallet`}
             component={(props) => <Wallet {...props} />}
           />
-          
         </Switch>
       </Sidebar>
     );

@@ -16,6 +16,7 @@ import CustomScroll from "react-custom-scroll";
 import "./sidebar.css";
 import { Avatar  } from "rsuite";
 import { connect } from 'react-redux'
+import { primaryColor, secondaryColor } from "../Partials/constant";
 
 class SideBarContent extends Component {
   constructor() {
@@ -38,9 +39,9 @@ class SideBarContent extends Component {
       <CustomScroll>
         <Menu
           style={{
-            backgroundColor: " rgb(51, 51, 51)",
+            backgroundColor: primaryColor,
             height: "100px",
-            borderBottom: "1px solid rgba(255, 255, 255, 0.144)",
+            borderBottom: `1px solid ${primaryColor}`,
             padding: "10px",
           }}
         >
@@ -59,7 +60,7 @@ class SideBarContent extends Component {
               ) : (
                 <Placeholder.Header image>
                   <Placeholder.Line />
-                 <p>loading</p>
+                  <p>loading</p>
                 </Placeholder.Header>
               )}
             </div>
@@ -67,7 +68,7 @@ class SideBarContent extends Component {
         </Menu>
         <Menu
           style={{
-            backgroundColor: " rgb(51, 51, 51)",
+            backgroundColor: primaryColor,
             color: "#fff",
           }}
           vertical
@@ -77,6 +78,8 @@ class SideBarContent extends Component {
             style={{
               padding: "10px",
               marginBottom: "15px",
+              color: '#fff',
+              fontWeight: 'bold'
             }}
             onClick={() => {
               history.push(path);
@@ -89,7 +92,7 @@ class SideBarContent extends Component {
             vertical
             fluid
             styled
-            style={{ backgroundColor: "rgb(51, 51, 51)", color: "#fff" }}
+            style={{ backgroundColor: primaryColor, color: "#fff" }}
           >
             <Menu.Item>
               <Accordion.Title
@@ -127,7 +130,7 @@ class SideBarContent extends Component {
           <Accordion
             as={Menu}
             vertical
-            style={{ backgroundColor: "rgb(51, 51, 51)", color: "#fff" }}
+            style={{ backgroundColor: primaryColor, color: "#fff" }}
           >
             <Menu.Item>
               <Accordion.Title
@@ -160,7 +163,7 @@ class SideBarContent extends Component {
           <Accordion
             as={Menu}
             vertical
-            style={{ backgroundColor: "rgb(51, 51, 51)", color: "#fff" }}
+            style={{ backgroundColor: primaryColor, color: "#fff" }}
           >
             <Menu.Item>
               <Accordion.Title
@@ -184,15 +187,23 @@ class SideBarContent extends Component {
                 content="Transaction History"
                 className="subMenu"
                 onClick={() => {
-                  history.push(`${path}/products/list`);
+                  history.push(`${path}/wallet/history`);
                 }}
               />
               <Accordion.Content
                 active={activeIndex === 4}
-                content="Pay or Fund Account"
+                content="Fund your wallet"
                 className="subMenu"
                 onClick={() => {
-                  history.push(`${path}/products/list`);
+                  history.push(`${path}/wallet/fund`);
+                }}
+              />
+              <Accordion.Content
+                active={activeIndex === 4}
+                content="Make a withdraw request"
+                className="subMenu"
+                onClick={() => {
+                  history.push(`${path}/wallet/withdraw`);
                 }}
               />
             </Menu.Item>
@@ -201,7 +212,7 @@ class SideBarContent extends Component {
           <Accordion
             as={Menu}
             vertical
-            style={{ backgroundColor: "rgb(51, 51, 51)", color: "#fff" }}
+            style={{ backgroundColor: primaryColor, color: "#fff" }}
           >
             <Menu.Item>
               <Accordion.Title
@@ -283,7 +294,8 @@ class SideBarContent extends Component {
               padding: "10px",
               marginBottom: "15px",
               marginTop: "15px",
-              color: "rgb(153, 153, 153)",
+              color: '#fff',
+              fontWeight: 'bold'
             }}
           >
             Buyer Account
@@ -291,7 +303,7 @@ class SideBarContent extends Component {
           <Accordion
             as={Menu}
             vertical
-            style={{ backgroundColor: "rgb(51, 51, 51)", color: "#fff" }}
+            style={{ backgroundColor: primaryColor, color: "#fff" }}
           >
             <Menu.Item>
               <Accordion.Title
@@ -339,7 +351,7 @@ class SideBarContent extends Component {
           <Accordion
             as={Menu}
             vertical
-            style={{ backgroundColor: "rgb(51, 51, 51)", color: "#fff" }}
+            style={{ backgroundColor: primaryColor, color: "#fff" }}
           >
             <Menu.Item>
               <Accordion.Title
@@ -371,7 +383,7 @@ class SideBarContent extends Component {
           <Accordion
             as={Menu}
             vertical
-            style={{ backgroundColor: "rgb(51, 51, 51)", color: "#fff" }}
+            style={{ backgroundColor: primaryColor, color: "#fff" }}
           >
             <Menu.Item>
               <Accordion.Title
