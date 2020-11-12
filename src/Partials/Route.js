@@ -1,14 +1,12 @@
+import React from "react";
 import Dashboard from "../MainScreens/Dashboard/Dashboard";
 import RecentOrder from "../MainScreens/Order/RecentOrder";
-import ManageQuotation from "../MainScreens/Quotations/ManageQuotation";
-import MakeQuotationRequest from "../MainScreens/Quotations/MakeQuotationRequest";
 import CreateProduct from "../MainScreens/Products/CreateProduct";
 import ProductList from "../MainScreens/Products/ProductList";
 import SignIn from "../MainScreens/AuthScreens/SignIn";
 import SidebarNavigation from "../Sidebar/SidebarNavigation";
 import Index from "../MainScreens/HomePage/Index";
 import SignUp from "../MainScreens/AuthScreens/SIgnUp";
-import React from "react";
 import SellerNavigator from "../MainScreens/EntryPoint.js/SellerNavigator";
 import CreateSeller from "../MainScreens/AuthScreens/CreateSeller";
 import CreateSellerStep from "../MainScreens/AuthScreens/CreateSellerStep";
@@ -45,17 +43,6 @@ export const authenticatedRoute = [{
         sidebar: SidebarNavigation,
         main: Dashboard,
     },
-    {
-        path: "/quotation/manage",
-        sidebar: SidebarNavigation,
-        main: ManageQuotation,
-    },
-    {
-        path: "/quotation/request",
-        sidebar: SidebarNavigation,
-        main: MakeQuotationRequest,
-    },
-
     {
         path: "/products/create",
         sidebar: SidebarNavigation,

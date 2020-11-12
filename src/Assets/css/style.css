@@ -4,9 +4,12 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+
 /**
 **primary: #e35f19
 */
+
+
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 html {
@@ -2010,8 +2013,8 @@ pre code {
 }
 
 .container-fluid {
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 10px;
+    padding-left: 10px;
     margin-right: auto;
     margin-left: auto
 }
@@ -58717,7 +58720,7 @@ textarea.input {
 #top-header {
     padding-top: 10px;
     padding-bottom: 10px;
-    background-color: #045f04;
+    background-color: rgb(233, 229, 229);
 }
 
 .header-links li {
@@ -58731,7 +58734,7 @@ textarea.input {
 }
 
 .header-links li a {
-    color: #FFF;
+    color: #e35f19;
 }
 
 .header-links li a:hover {
@@ -58751,7 +58754,7 @@ textarea.input {
 #header {
     padding-top: 15px;
     padding-bottom: 15px;
-    background-color: green;
+    background-color: #fff;
 }
 
 .header-logo {

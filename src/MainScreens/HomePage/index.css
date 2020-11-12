@@ -1,5 +1,5 @@
 * {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 nav {
@@ -20,12 +20,60 @@ nav {
     padding: 10px;
 }
 
+.lead-text {
+    top: 60%;
+    position: relative;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+}
+
+.lead-text>h4 {
+    color: green !important;
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 500;
+}
+
+.lead-text>h2 {
+    font-size: 48px;
+    line-height: 50px;
+    font-weight: 700;
+    width: 500px;
+}
+
+.get-started-btn {
+    padding: 10px 30px;
+    background-color: rgb(248, 100, 2);
+    color: #fff;
+    font-size: 20px;
+    margin-top: 25px;
+    border-radius: 50px;
+}
+
+.statistic {
+    top: 70%;
+    position: relative;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+}
+
+.statistic>.text-right>p {
+    font-size: 25px;
+    font-weight: 400;
+    width: 300px;
+    float: right;
+    line-height: 20px;
+    margin: 10px 0;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 128, 0, 0.239);
+}
+
 .body {
-    background-image: url("../../Assets//img//1197996.jpg");
-    background-blend-mode: multiply;
+    background-image: url("../../Assets/img/bg1.jpg");
     background-repeat: no-repeat;
-    background-size: cover;
-    background-color: rgb(65, 65, 66);
+    background-size: auto;
     height: 500px;
 }
 
@@ -61,4 +109,21 @@ li>a {
     text-decoration: none;
     color: white;
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+}
+
+@media (max-width:576px) {
+    .lead-text>h2 {
+        font-size: 28px;
+        line-height: 35px;
+        font-weight: 500;
+        width: 300px;
+    }
+    .get-started-btn {
+        padding: 10px 30px;
+        background-color: rgb(248, 100, 2);
+        color: #fff;
+        font-size: 20px;
+        margin-top: 25px;
+        border-radius: 50px;
+    }
 }

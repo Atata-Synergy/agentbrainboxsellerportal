@@ -23,6 +23,7 @@ import {
   Panel,
   Toggle,
   Divider,
+  Cascader,
 } from "rsuite";
 import ProductServices from "./ProductServices";
 import { baseUrl } from "../../Partials/API";
@@ -31,6 +32,7 @@ import {
   createProduct,
   createAd,
   updateProduct,
+  getCategories,
 } from "../../Actions/productAction";
 import store from "../../Helpers/Store";
 import NumberFormat from "react-number-format";
@@ -40,14 +42,16 @@ import {
   TO_STEP_2,
   TO_STEP_3,
   CLEAR_STATUS_MESSAGE,
+  SET_AD_PRODUCT,
 } from "../../Actions/types";
 import { token } from "../../Partials/constant";
-import CreatePromotion from "./CreatePromotion";
-import { Link } from "react-router-dom";
+import CreatePromotion from "../Advert/CreatePromotion";
+import { Link, Redirect } from "react-router-dom";
 class CreateProductContainer extends Component {
   constructor() {
     super();
     this.state = {
+      categories: [],
       stepsCurrent: 0,
       stepsError: null,
       /********FORM*****************/
@@ -55,23 +59,19 @@ class CreateProductContainer extends Component {
       name: "",
       model: "",
       price: "",
-      is_new: "",
+      is_new: true,
       isNegotiable: "",
       /****END**FORM***ENTRY********/
-      basicInfoDisplay: "block",
-      basicSpecificationDisplay: "none",
       productNameError: null,
       productModelError: null,
       productSKUError: null,
       productPriceError: null,
       ProductSalePriceError: null,
-      productColourError: null,
+      productDescriptionError: null,
       disabledPreviousButton: true,
       disabledNextButton: false,
       showDraftModal: false,
       savedProduct: "",
-      productMediaDisplay: "none",
-      productServicesDisplay: "none",
       draftBtnLoading: false,
       nextBtnLoading: false,
       nextBtnText: "Next",
@@ -112,11 +112,12 @@ class CreateProductContainer extends Component {
         this.setState({
           disabledNextButton: false,
           disabledPreviousButton: true,
+          nextBtnText: "Create Promotion",
         });
         // store.dispatch({ type: TO_STEP_2 });
         /******UPLOAD PRODUCT */
         const productData = {
-          category_id: 1,
+          category_id: this.state.category_id,
           name: this.state.name,
           model: this.state.model,
           description: this.state.description.toString("html"),
@@ -135,12 +136,19 @@ class CreateProductContainer extends Component {
         // store.dispatch({ type: TO_STEP_2 });
         break;
       case 2:
-        store.dispatch({ type: TO_STEP_3 });
-        this.setState({
-          nextBtnText: "Create Promotion",
-          disabledNextButton: !this.props.product.id,
-          disabledPreviousButton: true,
+        store.dispatch({
+          type: SET_AD_PRODUCT,
+          payload: {
+            id: this.props.product.id,
+            name: this.props.product.name,
+          },
         });
+        this.props.history.push("/seller/ad/create");
+        // this.setState({
+        //   nextBtnText: "Create Promotion",
+        //   disabledNextButton: !this.props.product.id,
+        //   disabledPreviousButton: true,
+        // });
         break;
       case 3:
         const adData = {
@@ -232,40 +240,46 @@ class CreateProductContainer extends Component {
   }
 
   async componentDidMount() {
-     if (this.props.product.name !== this.state.name) {
-       const {
-         category_id,
-         name,
-         model,
-         description,
-         specification,
-         price,
-         is_new,
-         isNegotiable,
-         warranty,
-         userManual,
-         other_details,
-       } = this.props.product;
-       this.setState({
-         category_id,
-         name,
-         model,
-         description: RichTextEditor.createValueFromString(description, "html"),
-         specification: RichTextEditor.createValueFromString(
-           specification,
-           "html"
-         ),
-         price,
-         is_new,
-         isNegotiable,
-         warranty: RichTextEditor.createValueFromString(warranty, "html"),
-         userManual: RichTextEditor.createValueFromString(userManual, "html"),
-         other_details: RichTextEditor.createValueFromString(
-           other_details,
-           "html"
-         ),
-       });
-     }
+    if (this.props.product.name !== this.state.name) {
+      const {
+        category_id,
+        name,
+        model,
+        description,
+        specification,
+        price,
+        is_new,
+        isNegotiable,
+        warranty,
+        userManual,
+        other_details,
+      } = this.props.product;
+      this.setState({
+        category_id,
+        name,
+        model,
+        description: RichTextEditor.createValueFromString(
+          description || "",
+          "html"
+        ),
+        specification: RichTextEditor.createValueFromString(
+          specification,
+          "html"
+        ),
+        price,
+        is_new,
+        isNegotiable,
+        warranty: RichTextEditor.createValueFromString(warranty || "", "html"),
+        userManual: RichTextEditor.createValueFromString(
+          userManual || "",
+          "html"
+        ),
+        other_details: RichTextEditor.createValueFromString(
+          other_details || "",
+          "html"
+        ),
+      });
+    }
     store.dispatch({ type: TO_STEP_0 });
     /**
      * Saved draft from the localStorage
@@ -282,10 +296,10 @@ class CreateProductContainer extends Component {
         savedProduct: savedProduct,
       });
     }
+    this.props.getCategories();
   }
 
   componentDidUpdate(props, state) {
-   
     if (props.productUpdateStatus) {
       Notification[props.productUpdateStatus ? "success" : "error"]({
         title: [props.productUpdateStatus ? "success" : "error"],
@@ -297,6 +311,57 @@ class CreateProductContainer extends Component {
         store.dispatch({ type: CLEAR_STATUS_MESSAGE });
       }, 5000);
     }
+  }
+  static getDerivedStateFromProps(props, state) {
+    /**
+     * Notification Popup
+     */
+    if (Object.keys(props.productErrors).length > 0) {
+      //  props.productErrors.map((error) => {
+      //    Notification["error"]({
+      //      title: "Some required field are missing",
+      //      description: error[0],
+      //    });
+      //  });
+      // Notification["error"]({
+      //   title: "An Error Occurred",
+      //   description: "Some required field are missing",
+      // });
+      return {
+        disabledPreviousButton: false,
+        stepsError: "Some required fields are missing",
+      };
+    }
+
+    /****
+     *
+     * Populate categories
+     */
+    const categories = [];
+    if (props.mainCategories !== state.categories) {
+      props.mainCategories &&
+        props.mainCategories.map((cat) => {
+          categories.push({
+            value: cat.id,
+            label: cat.name,
+            children: cat.subCategories.map((sub) => {
+              return {
+                label: sub.name,
+                value: sub.id,
+              };
+            }),
+          });
+        });
+      return {
+        categories,
+      };
+    }
+    /***
+     *
+     * Get Errors from response and set to state
+     */
+
+    return null;
   }
 
   render() {
@@ -326,7 +391,7 @@ class CreateProductContainer extends Component {
           });
         },
         type: "text",
-        errorMessage: this.state.productNameError,
+        errorMessage: this.props.productErrors.name,
       },
       {
         id: 2,
@@ -340,7 +405,7 @@ class CreateProductContainer extends Component {
             productModelError: this.validateInput(text),
           }),
         type: "text",
-        errorMessage: this.state.productModelError,
+        errorMessage: this.props.productErrors.model,
       },
       {
         id: 4,
@@ -349,7 +414,7 @@ class CreateProductContainer extends Component {
         value: this.state.price,
         onChange: (text) => this.setState({ price: text.floatValue }),
         type: "number",
-        errorMessage: this.state.productPriceError,
+        errorMessage: this.props.productErrors.price,
         inputCurrency: true,
         value: this.state.productPrice,
       },
@@ -423,6 +488,36 @@ class CreateProductContainer extends Component {
           <div className="form-group row">
             <Form layout="inline">
               <FormGroup>
+                <div
+                  style={{
+                    margin: "1em",
+                    marginLeft: 60,
+                    width: "100%",
+                  }}
+                >
+                  <div className="row">
+                    <div className="col-md-4">
+                      <ControlLabel> Select Product Category </ControlLabel>
+                    </div>
+                    <div className="col-md-8">
+                      <Cascader
+                        size="lg"
+                        menuWidth={200}
+                        value={this.state.category_id}
+                        onChange={(e) => this.setState({ category_id: e })}
+                        style={{
+                          width: 500,
+                          marginBottom: 10,
+                        }}
+                        data={this.state.categories}
+                      />
+                      <br />
+                      <small className="text-danger">
+                        {this.props.productErrors.category_id}
+                      </small>
+                    </div>
+                  </div>
+                </div>
                 {inputArray.map((inputField) => (
                   <div
                     key={inputField.key}
@@ -437,6 +532,9 @@ class CreateProductContainer extends Component {
                         <div className="row">
                           <div className="col-md-4">
                             <ControlLabel> {inputField.label} </ControlLabel>
+                            <small className="text-danger">
+                              {inputField.categoryError}
+                            </small>
                           </div>
                           <div className="col-md-8">
                             <div style={{ width: 160 }}>
@@ -499,6 +597,9 @@ class CreateProductContainer extends Component {
                       unCheckedChildren="Fairly Used"
                       onChange={(e) => this.setState({ is_new: e })}
                     />
+                    <small className="text-danger">
+                      {this.props.productErrors.is_new}
+                    </small>
                   </div>
                   <div className="show-grid mt-4">
                     <div className="col-sm-12 col-md-3">
@@ -510,6 +611,9 @@ class CreateProductContainer extends Component {
                         editorStyle={{ height: 300 }}
                         onChange={(e) => this.setState({ description: e })}
                       />
+                      <small className="text-danger">
+                        {this.props.productErrors.description}
+                      </small>
                     </div>
                   </div>
                 </div>
@@ -612,33 +716,9 @@ class CreateProductContainer extends Component {
               <Icon icon="camera-retro" size="lg" />
             </button>
           </Uploader>
-          <Message
-            description={
-              <>
-                <a
-                  className="btn-link"
-                  href="#"
-                  onClick={() => store.dispatch({ type: TO_STEP_3 })}
-                >
-                  Skip
-                </a>
-                if you want don't want to upload images now but your product
-                will not be visible
-              </>
-            }
-            type="info"
-          />
         </div>
         {/* End Specification */}
-        <div
-          className="form-horizontal form-label-left"
-          style={{
-            display: this.props.productServicesDisplay,
-            justifyContent: "center",
-          }}
-        >
-          <CreatePromotion />
-        </div>
+
         <hr className="my-4" />
         <div style={{ display: "flex", justifyContent: "flex-start" }}>
           <div className="m-3">
@@ -691,12 +771,18 @@ const mapStateToProps = (state) => ({
   product: state.product.product,
   date: state.product.date,
   productUpdateStatus: state.product.productUpdateStatus,
+  gettingCategories: state.product.gettingCategories,
+  mainCategories: state.product.mainCategories.data,
+  subCategories: state.product.subCategories,
+  categoryError: state.product.categoryError,
+  productErrors: state.product.productErrors,
 });
 
 const mapDispatchToProps = {
   updateProduct,
   createProduct,
   createAd,
+  getCategories,
 };
 
 export default connect(

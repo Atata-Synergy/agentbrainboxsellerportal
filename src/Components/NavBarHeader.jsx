@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import logo from "../Assets/logo.png";
+import { Link } from "react-router-dom";
+import { Nav, Icon } from "rsuite";
 const NavBarHeader = () => {
   return (
     <header>
@@ -25,13 +27,19 @@ const NavBarHeader = () => {
           </ul>
           <ul className="header-links pull-right">
             <li>
-              <a href="#">
-                <i className="fa fa-dollar"></i> USD
-              </a>
+              <Link to="/login">
+                <i className="fa fa-lock"></i> Login
+              </Link>
             </li>
             <li>
+              <Link to="/register">
+                <i className="fa fa-user-o"></i> Register
+              </Link>
+            </li>
+            
+            <li>
               <a href="#">
-                <i className="fa fa-user-o"></i> My Account
+                <i className="fa fa-user-o"></i> Buy a product
               </a>
             </li>
           </ul>
@@ -43,10 +51,22 @@ const NavBarHeader = () => {
           <div className="row">
             <div className="col-md-3">
               <div className="header-logo">
-                <a href="#" className="logo">
-                  ADB
-                </a>
+                <Link to="/" className="logo w-100">
+                  <img src={logo} alt="agent bta" />
+                </Link>
               </div>
+            </div>
+            <div className="col-md-9 col-sm-12">
+              <Nav>
+                <Nav.Item eventKey="home" icon={<Icon icon="home" />}>
+                  Home
+                </Nav.Item>
+                <Nav.Item eventKey="news">How we work</Nav.Item>
+                <Nav.Item eventKey="solutions">Our commission's</Nav.Item>
+                <Nav.Item eventKey="products">Testimonials</Nav.Item>
+                <Nav.Item eventKey="about">FAQ</Nav.Item>
+                <Nav.Item eventKey="about">Contact US</Nav.Item>
+              </Nav>
             </div>
           </div>
         </div>

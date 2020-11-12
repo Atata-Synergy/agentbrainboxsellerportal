@@ -1,0 +1,16 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+export const Create = () => {
+  return <div>Create</div>;
+}
+
+const mapStateToProps = (state) => ({
+  
+})
+
+const mapDispatchToProps = {
+  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Create)

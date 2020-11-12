@@ -53,11 +53,19 @@ export const AD_COST_ERR = "AD_COST_ERR"
 export const CREATE_AD = "CREATE_AD"
 export const AD_CREATED = "AD_CREATED"
 export const AD_CREATE_ERROR = "AD_CREATE_ERROR"
+export const SET_AD_PRODUCT = "SET_AD_PRODUCT"
 
 export const GET_ADVERTS = "GET_ADVERTS"
 export const ADVERTS = "ADVERTS"
 export const ADVERTS_ERROR = "ADVERTS_ERROR"
 
+/**
+ * Category
+ */
+export const GET_CATEGORY = "GET_CATEGORY"
+export const CATEGORIES = "CATEGORIES"
+export const SUB_CATEGORY = "SUB_CATEGORY"
+export const CATEGORY_ERROR = "CATEGORY_ERROR"
 
 /***
  * ORDERS

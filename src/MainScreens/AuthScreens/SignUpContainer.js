@@ -78,7 +78,7 @@ function TextField(props) {
   return (
     <FormGroup>
       <ControlLabel> {label} </ControlLabel>
-      <FormControl name={name} accepter={accepter} {...rest} type={type} />
+      <FormControl style={{padding: '10px'}}  name={name} accepter={accepter} {...rest} type={type} />
     </FormGroup>
   );
 }
@@ -152,7 +152,7 @@ class SignUpContainer extends Component {
     const { formError, formValue } = this.state;
     const { errors } = this.state;
     return (
-      <div className="show-fake-browser login-page w-100 p-4 m-4 container-fluid">
+      <div className="p-4 m-4 container-fluid">
         <Container>
           <div className="row">
             <div className="mx-auto">
@@ -161,7 +161,7 @@ class SignUpContainer extends Component {
                 bordered
                 style={{
                   display: "inline-block",
-                  width: "400px",
+                  width: "600px",
                   alignSelf: "bottom",
                   backgroundColor: "#fff",
                 }}
@@ -191,9 +191,11 @@ class SignUpContainer extends Component {
                   }}
                   formValue={formValue}
                   model={model}
+                  fluid
                 >
                   {formFields.map((textField) => (
                     <TextField
+                    
                       name={textField.name}
                       label={textField.label}
                       type={textField.type}

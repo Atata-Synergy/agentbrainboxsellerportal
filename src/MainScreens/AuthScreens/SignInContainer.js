@@ -130,7 +130,7 @@ class SignInContainer extends Component {
                     lineHeight: "80px",
                   }}
                 >
-                  Let 's give you <span>Africa</span>
+                  One Step <span>Away</span>
                 </h1>
               </div>
               <div className="col-xs-12 col-md-8">
@@ -190,36 +190,8 @@ class SignInContainer extends Component {
                     </p>
                   </Form>
                   <Divider />
-                  <div
-                    className="mx-auto d-flex"
-                    style={{ justifyContent: "center" }}
-                  >
-                    <Button
-                      circular
-                      color="facebook"
-                      icon="facebook"
-                      className="m-1"
-                    />
-                    <Button
-                      circular
-                      color="twitter"
-                      icon="twitter"
-                      className="m-1"
-                    />
-                    <Button
-                      circular
-                      color="linkedin"
-                      icon="linkedin"
-                      className="m-1"
-                    />
-                    <Button
-                      circular
-                      color="google plus"
-                      icon="google plus"
-                      className="m-1"
-                    />
-                  </div>
-                </Panel>
+                
+                 </Panel>
               </div>
             </div>
           </div>

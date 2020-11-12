@@ -24,11 +24,17 @@ import {
     GET_ADVERTS,
     ADVERTS,
     ADVERTS_ERROR,
+    GET_CATEGORY,
+    CATEGORIES,
+    CATEGORY_ERROR,
+    SUB_CATEGORY,
+    SET_AD_PRODUCT,
 } from "../Actions/types";
 
 const initialState = {
     isCreatingProduct: false,
     product: {},
+    productErrors: {},
     product_Error: null,
     /*******   *******/
     products: [],
@@ -45,7 +51,14 @@ const initialState = {
     ad_cost_error: false,
     date: null,
     /*******   *******/
+    gettingCategories: false,
+    mainCategories: [],
+    subCategories: {},
+    categoryError: null,
+    /*******   *******/
     productUpdateStatus: null,
+    /******* ads *******/
+    adProduct: {},
     /******* Views *******/
     basicInfoDisplay: "block",
     productMediaDisplay: "none",
@@ -72,6 +85,31 @@ export default function(state = initialState, action) {
                 adverts: action.payload
             };
         case ADVERTS_ERROR:
+            return {
+                ...state,
+                isFetchingAds: false,
+                adverts: action.payload,
+            };
+        case GET_CATEGORY:
+            return {
+                ...state,
+                gettingCategories: true,
+                categoryError: null,
+            };
+        case CATEGORIES:
+            return {
+                ...state,
+                gettingCategories: false,
+                categoryError: null,
+                mainCategories: action.payload
+            };
+        case SUB_CATEGORY:
+            return {
+                ...state,
+                subCategories: action.payload
+            };
+
+        case CATEGORY_ERROR:
             return {
                 ...state,
                 isFetchingAds: false,
@@ -198,11 +236,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isCreatingProduct: false,
-                productUpdateStatus: {
-                    message: JSON.stringify(action.payload),
-                    success: false
-                },
-                product_Error: action.payload
+                productErrors: action.payload
             };
 
         case TO_STEP_1:
@@ -245,6 +279,11 @@ export default function(state = initialState, action) {
                 stepsCurrent: 0,
                 basicInfoDisplay: "block",
                 disabledPreviousButton: false,
+            };
+        case SET_AD_PRODUCT:
+            return {
+                ...state,
+                adProduct: action.payload
             };
 
         default:

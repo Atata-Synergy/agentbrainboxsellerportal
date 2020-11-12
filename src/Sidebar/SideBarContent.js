@@ -55,7 +55,6 @@ class SideBarContent extends Component {
                     <br />
                     {merchant.business_email}
                   </p>
-                  <a href="">Edit Profile</a>
                 </>
               ) : (
                 <Placeholder.Header image>
@@ -224,67 +223,20 @@ class SideBarContent extends Component {
               />
               <Accordion.Content
                 active={activeIndex === 5}
-                content="ATATA Logistics "
+                content="Place an Advert"
                 onClick={() => {
-                  history.push(`${path}/order/recent`);
+                  history.push(`${path}/ad/create`);
                   //   setEvent(4);
                 }}
                 className="subMenu"
               />
+             
               <Accordion.Content
                 active={activeIndex === 5}
-                content="ATATA Warehouse "
+                content="Manage All Adverts"
                 className="subMenu"
                 onClick={() => {
-                  history.push(`${path}/products/list`);
-                }}
-              />
-              <Accordion.Content
-                active={activeIndex === 5}
-                content="ATATA Insurance "
-                className="subMenu"
-                onClick={() => {
-                  history.push(`${path}/products/list`);
-                }}
-              />
-              <Accordion.Content
-                active={activeIndex === 5}
-                content="ATATA Logistics "
-                className="subMenu"
-                onClick={() => {
-                  history.push(`${path}/products/list`);
-                }}
-              />
-              <Accordion.Content
-                active={activeIndex === 5}
-                content="ATATA Warehouse "
-                className="subMenu"
-                onClick={() => {
-                  history.push(`${path}/products/list`);
-                }}
-              />
-              <Accordion.Content
-                active={activeIndex === 5}
-                content="ATATA Insurance "
-                className="subMenu"
-                onClick={() => {
-                  history.push(`${path}/products/list`);
-                }}
-              />
-              <Accordion.Content
-                active={activeIndex === 5}
-                content="ATATA SecurePay "
-                className="subMenu"
-                onClick={() => {
-                  history.push(`${path}/products/list`);
-                }}
-              />
-              <Accordion.Content
-                active={activeIndex === 5}
-                content="ATATA Agents "
-                className="subMenu"
-                onClick={() => {
-                  history.push(`${path}/products/list`);
+                  history.push(`${path}/ad/all`);
                 }}
               />
             </Menu.Item>

@@ -24,20 +24,16 @@ import {
 } from "react-router-dom";
 // import "rsuite/dist/styles/dark.css";
 import Dashboard from "../MainScreens/Dashboard/Dashboard";
-import CreateSeller from "../MainScreens/AuthScreens/CreateSellerContainer";
-import ManageQuotation from "../MainScreens/Quotations/ManageQuotation";
-import MakeQuotationRequest from "../MainScreens/Quotations/MakeQuotationRequest";
 import CreateProduct from "../MainScreens/Products/CreateProduct";
 import ProductList from "../MainScreens/Products/ProductList";
-import verifyToken from "../Partials/Authentication";
 import "./Style.css";
 import SideBarContent from "./SideBarContent";
-import fetchUser from "../Partials/Fetch";
 import { me } from "../Actions/loginAction";
 import { connect } from "react-redux";
 import RecentOrder from "../MainScreens/Order/RecentOrder";
 import Transaction from "../MainScreens/Transaction";
 import Wallet  from "../MainScreens/Wallet/WalletRoute";
+import Advert from "../MainScreens/Advert";
 const mql = window.matchMedia(`(min-width: 800px)`);
 
 const panelStyles = {
@@ -121,18 +117,13 @@ class SidebarNavigation extends Component {
           },
         }}
       >
+      
         <Dimmer active={this.props.isLoggingIn}>
           <Loader>{this.props.isLoggingIn && "Authenticating"}</Loader>
         </Dimmer>
         <Switch>
           <Route exact path={path}>
             <Dashboard />
-          </Route>
-          <Route path={`${path}/quotation/manage`}>
-            <ManageQuotation />
-          </Route>
-          <Route path={`${path}/quotation/request`}>
-            <MakeQuotationRequest />
           </Route>
           <Route path={`${path}/products/create`}>
             <CreateProduct />
@@ -156,6 +147,10 @@ class SidebarNavigation extends Component {
           <Route
             path={`${path}/wallet`}
             component={(props) => <Wallet {...props} />}
+          />
+          <Route
+            path={`${path}/ad`}
+            component={(props) => <Advert {...props} />}
           />
         </Switch>
       </Sidebar>

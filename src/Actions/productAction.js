@@ -20,6 +20,9 @@ import {
     GET_ADVERTS,
     ADVERTS,
     ADVERTS_ERROR,
+    GET_CATEGORY,
+    CATEGORIES,
+    CATEGORY_ERROR,
 } from "./types";
 import { token } from '../Partials/constant';
 
@@ -37,10 +40,12 @@ export const createProduct = ({ productData }) => dispatch => {
             dispatch({ type: TO_STEP_2 })
         })
         .catch(err => {
-            console.log(err)
+            alert(err.response.data ? err.response.data.error ||
+                err.response.data.message : err.response.statusText || JSON.stringify(err))
             dispatch({
                 type: PRODUCT_CREATE_ERROR,
-                payload: err.response
+                payload: err.response.data ? err.response.data.errors || err.response.data.error ||
+                    err.response.data.message : err.response.statusText || JSON.stringify(err)
             })
         })
 }
@@ -175,6 +180,7 @@ export const createAd = (adData) => dispatch => {
             })
         })
 }
+
 export const getAdvert = () => dispatch => {
     const userToken = localStorage.getItem(token)
     dispatch({ type: GET_ADVERTS })
@@ -192,6 +198,27 @@ export const getAdvert = () => dispatch => {
             console.log(err)
             dispatch({
                 type: ADVERTS_ERROR,
+                payload: err.response
+            })
+        })
+}
+export const getCategories = () => dispatch => {
+    const userToken = localStorage.getItem(token)
+    dispatch({ type: GET_CATEGORY })
+
+
+    API.get(`/categories`, { headers: { Authorization: `Bearer ${userToken}` } })
+        .then(response => {
+            console.log(response.data)
+            dispatch({
+                type: CATEGORIES,
+                payload: response.data
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({
+                type: CATEGORY_ERROR,
                 payload: err.response
             })
         })

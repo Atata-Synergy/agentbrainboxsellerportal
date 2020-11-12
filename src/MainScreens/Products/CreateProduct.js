@@ -1,6 +1,6 @@
 import React from "react";
 import { Steps } from "rsuite";
-import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, useParams, useHistory } from "react-router-dom";
 import CreateProductContainer from "./CreateProductContainer";
 import { useEffect } from "react";
 import {getProduct} from "../../Actions/productAction"
@@ -8,12 +8,13 @@ import { connect } from 'react-redux'
 
  function CreateProduct(props) {
   const {id} = useParams()
+  const history = useHistory()
   useEffect(() => {
  id && props.getProduct(id)
   }, []);
   return (
     <>
-     <CreateProductContainer {...props}/>
+      <CreateProductContainer history={history} {...props} />
     </>
   );
 }
