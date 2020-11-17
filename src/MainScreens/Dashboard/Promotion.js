@@ -70,7 +70,7 @@ export default class Promotion extends Component {
           </div>
         </div>
         <div className="card-img">
-          {/* <img src={this.props.media[0].path} /> */}
+          <img src={this.props.media[0] && this.props.media[0].path} />
         </div>
         <hr className="my-4"/>
         <div className="card-body">

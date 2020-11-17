@@ -17,7 +17,7 @@ import "./sidebar.css";
 import { Avatar  } from "rsuite";
 import { connect } from 'react-redux'
 import { primaryColor, secondaryColor } from "../Partials/constant";
-
+import { logout } from "../Actions/loginAction";
 class SideBarContent extends Component {
   constructor() {
     super();
@@ -241,7 +241,7 @@ class SideBarContent extends Component {
               />
             </Menu.Item>
           </Accordion>
-          <Menu.Item
+          {/* <Menu.Item
             style={{
               padding: "10px",
               marginBottom: "15px",
@@ -363,7 +363,22 @@ class SideBarContent extends Component {
                 }}
               />
             </Menu.Item>
-          </Accordion>
+          </Accordion> */}
+           <Menu.Item
+            className="menu mt-4 pt-4 align-self-baseline"
+            style={{
+              padding: "10px",
+              marginBottom: "15px",
+              color: '#fff',
+              fontWeight: 'bold'
+            }}
+            onClick={() => {
+              this.props.logout();
+              history.push('/');
+            }}
+          >
+            log Out
+          </Menu.Item>
         </Menu>
       </CustomScroll>
     );
@@ -376,7 +391,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  
-}
+  logout,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBarContent);

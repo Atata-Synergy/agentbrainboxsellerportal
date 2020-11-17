@@ -26,6 +26,21 @@ export const login = (credentials) => dispatch => {
         })
         .catch(err => {
             console.log(err.response)
+            window.location.href = '/'
+            dispatch({
+                type: ERROR_LOGGING,
+                payload: err.response ? err.response.data.errors || err.response.data.message : JSON.stringify(err)
+            })
+        })
+}
+export const logout = () => dispatch => {
+    dispatch({ type: LOGIN })
+    API.get('/auth/logout')
+        .then(response => {
+            localStorage.removeItem(token)
+        })
+        .catch(err => {
+            console.log(err.response)
             dispatch({
                 type: ERROR_LOGGING,
                 payload: err.response ? err.response.data.errors || err.response.data.message : JSON.stringify(err)
@@ -52,6 +67,8 @@ export const me = () => dispatch => {
         })
         .catch(err => {
             console.log(err.response)
+            window.location.href = '/'
+
             dispatch({
                 type: ERROR_LOGGING,
                 payload: err.response ? err.response.data.errors || err.response.data.message : JSON.stringify(err)

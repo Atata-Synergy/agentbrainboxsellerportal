@@ -6,6 +6,9 @@ import {
     UPDATE_ORDER_STATUS,
     ORDER_STATUS_UPDATED,
     ORDER_STATUS_ERROR,
+    GET_ORDER_FOR_CHART,
+    ORDER_FOR_CHART,
+    ORDER_FOR_CHART_ERROR,
 } from "./types";
 import { token } from '../Partials/constant';
 
@@ -27,6 +30,28 @@ export const getOrders = () => dispatch => {
             console.log(err)
             dispatch({
                 type: RECEIVED_ORDER_ERROR,
+                payload: err.response
+            })
+        })
+}
+
+
+export const getChartOrders = () => dispatch => {
+    const userToken = localStorage.getItem(token)
+    dispatch({ type: GET_ORDER_FOR_CHART })
+
+    API.get('/merchants/orders/chart_data', { headers: { Authorization: `Bearer ${userToken}` } })
+        .then(response => {
+            console.log(response.data)
+            dispatch({
+                type: ORDER_FOR_CHART,
+                payload: response.data
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({
+                type: ORDER_FOR_CHART_ERROR,
                 payload: err.response
             })
         })

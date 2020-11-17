@@ -646,7 +646,7 @@ class CreateSellerContainer extends Component {
                 <Button
                   appearance="primary"
                   onClick={onNext}
-                  loading={this.state.nextIsLoading}
+                  loading={this.props.creatingMerchant}
                 >
                   {this.state.step === 2 ? "Finish" : "Next"}
                 </Button>

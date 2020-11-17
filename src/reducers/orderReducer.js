@@ -5,6 +5,9 @@ import {
     UPDATE_ORDER_STATUS,
     ORDER_STATUS_UPDATED,
     ORDER_STATUS_ERROR,
+    GET_ORDER_FOR_CHART,
+    ORDER_FOR_CHART,
+    ORDER_FOR_CHART_ERROR,
 } from "../Actions/types";
 
 const initialState = {
@@ -12,6 +15,10 @@ const initialState = {
     gettingOrders: false,
     receivedOrders: [],
     orderErrors: null,
+    /**********************/
+    c_orders: [],
+    c_orderError: null,
+    C_gettingOrders: false,
     /**********************/
     updatingOrders: false,
     orderUpdated: false,
@@ -56,6 +63,25 @@ export default function(state = initialState, action) {
                 ...state,
                 updatingOrders: false,
                 orderUpdateErrors: action.payload,
+            };
+        case GET_ORDER_FOR_CHART:
+            return {
+                ...state,
+                c_orderError: null,
+                C_gettingOrders: true,
+            };
+        case ORDER_FOR_CHART:
+            return {
+                ...state,
+                c_orders: action.payload,
+                c_orderError: null,
+                C_gettingOrders: false,
+            };
+        case ORDER_FOR_CHART_ERROR:
+            return {
+                ...state,
+                C_gettingOrders: false,
+                c_orderError: action.payload,
             };
 
         default:

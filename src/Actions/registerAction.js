@@ -46,7 +46,8 @@ export const registerUser = (credentials) => dispatch => {
             })
         })
         .catch(err => {
-            console.log(err)
+            console.log(err.response)
+            alert(err.response ? err.response.data && JSON.stringify(err.response.data.errors) : 'An error occurredd')
             dispatch({
                 type: REGISTRATION_ERROR,
                 payload: err.response && err.response.data
@@ -115,6 +116,8 @@ export const registerMerchant = (credentials) => dispatch => {
             })
         })
         .catch(err => {
+            alert(err.response ? err.response.data && JSON.stringify(err.response.data.errors) : 'An error occurredd')
+
             console.log(err)
             dispatch({
                 type: ERROR_CREATING_MERCHANT,

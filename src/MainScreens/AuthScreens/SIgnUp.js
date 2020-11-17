@@ -8,16 +8,19 @@ import NavBarHeader from "../../Components/NavBarHeader";
 import Footer from "../../Components/Footer";
 
 export default function SignUp() {
-  let history = useHistory();
+    let history = useHistory();
 
-  return (
-    <>
-      {" "}
-      <NavBarHeader />
-      <div className="auth-body">
-        <SignUpContainer history={history} />
-      </div>{" "}
-      <Footer />
-    </>
-  );
+    return ( <
+        > { " " } <
+        NavBarHeader / >
+        <
+        div className = "auth-body" >
+        <
+        SignUpContainer history = { history }
+        /> <
+        /div>{" "} <
+        Footer / >
+        <
+        />
+    );
 }
